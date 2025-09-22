@@ -1,0 +1,16 @@
+[
+  {
+    "client_id": "",
+    "name": "Example 1",
+    "description": "Example Description",
+    "external": false,
+    "status_id": 0
+  },
+  {
+    "client_id": "",
+    "name": "Exercise 2",
+    "description": "Exercise Description 2",
+    "external": true,
+    "status_id": 2
+  }
+]

@@ -1,0 +1,66 @@
+#
+# === Overview: systemd user services ===
+# example: api-dashboard-staging.service
+#
+# systemd is a service manager on Linux that controls how applications
+# start, stop, restart, and run in the background. 
+#
+# A *user service* runs under a specific user account (not as root).
+# These services are managed with:
+#   systemctl --user <command> <service-name>
+#
+# Benefits of user services:
+# - Run apps without root privileges
+# - Automatically start apps on login
+# - Manage background processes per user
+#
+# === Quick Tutorial: systemd --user ===
+#
+# 1. Save this service file into:
+#    ~/.config/systemd/user/
+#
+# 2. Reload user service list:
+#    systemctl --user daemon-reload
+#
+# 3. Enable service to start automatically on login:
+#    systemctl --user enable <service-file>.service
+#
+# 4. Start service manually:
+#    systemctl --user start <service-file>.service
+#
+# 5. Check service status:
+#    systemctl --user status <service-file>.service
+#
+# 6. Stop service:
+#    systemctl --user stop <service-file>.service
+#
+# 7. View service logs:
+#    journalctl --user -u <service-file>.service -f
+#
+# ========================================
+#
+
+[Unit]
+Description=API Dashboard - staging
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/[yourusername]/app/dashboard-boilerplate
+ExecStart=/home/[yourusername]/.nvm/versions/node/v22.16.0/bin/npm run server:dev
+Environment=PORT=8082
+Environment=PATH=/home/[yourusername]/app/dashboard-boilerplate/node_modules/.bin:/home/[yourusername]/.nvm/versions/node/v22.16.0/bin/:/usr/local/bin:/usr/bin:/bin
+
+Restart=on-failure
+KillSignal=SIGINT
+TimeoutStopSec=15
+SyslogIdentifier=api-dashboard-staging
+
+#StandardOutput=journal
+#StandardError=journal
+StandardOutput=append:/home/[yourusername]/logs/api-dashboard-staging.out.log
+StandardError=append:/home/[yourusername]/logs/api-dashboard-staging.err.log
+
+[Install]
+WantedBy=default.target

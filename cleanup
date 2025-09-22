@@ -1,0 +1,11 @@
+#!/bin/bash
+MIGRATIONS_DIR="prisma/migrations"
+
+echo "🔍 Mencari folder dengan nama *mod* di $MIGRATIONS_DIR..."
+
+find "$MIGRATIONS_DIR" -type d -name "*mod*" -print -exec rm -rf {} +
+
+rm -rf prisma/schema/mod_*.prisma
+
+echo "✅ Selesai!"
+

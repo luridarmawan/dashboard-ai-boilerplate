@@ -1,0 +1,258 @@
+// Core models for the application
+
+model users {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  email         String    @unique
+  password_hash String?
+  google_id     String?   @unique
+  x_id          String?   @unique
+  github_id     String?   @unique
+  first_name    String    @db.VarChar(100)
+  last_name     String    @db.VarChar(100)
+  phone         String?   @db.VarChar(16)
+  alias         String?   @db.VarChar(10)
+  description   String?
+  avatar        String?   @db.VarChar(512)
+  last_seen     DateTime? @db.Timestamptz
+  ip            String?   @db.VarChar(45)
+  balance       Decimal   @default(0.00) @db.Decimal(18,4)
+  credit        Decimal   @default(0.00) @db.Decimal(18,4)
+  session_token   String?   @db.VarChar(64)
+  session_expires DateTime? @db.Timestamptz
+  verification_token      String? @db.VarChar(45)
+  verification_token_expires  DateTime? @db.Timestamptz
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  // Back-relations (virtual, tidak menambah kolom DB)
+  conversations_created    conversations[]             @relation("UserConversationsCreated")
+  conversation_memberships conversation_participants[] @relation("UserConversationParticipants")
+  messages_authored        messages[]                  @relation("UserMessagesAuthored")
+
+  @@index([email])
+  @@map("${TABLE_PREFIX}users")
+}
+
+model sessions {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  user_id       String?   @db.Uuid
+  token         String?   @db.VarChar(255)
+  device        String?   @db.VarChar(45)
+  login_at      DateTime? @db.Timestamptz
+  last_seen     DateTime? @db.Timestamptz
+  ip            String?   @db.VarChar(45)
+  lat           Float?    @db.DoublePrecision
+  lon           Float?    @db.DoublePrecision
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@map("${TABLE_PREFIX}sessions")
+}
+
+model clients {
+  id            String    @id @default(uuid()) @db.Uuid
+  parent_id     String?   @db.Uuid
+  name          String
+  description   String?
+  balance       Decimal   @default(0.00) @db.Decimal(18,4)
+  credit        Decimal   @default(0.00) @db.Decimal(18,4)
+  metadata      Json?
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([parent_id])
+  @@map("${TABLE_PREFIX}clients")
+}
+
+model outbox_email {
+  id            String     @id @default(uuid()) @db.Uuid
+  track_id      String?    @db.Uuid
+  client_id     String?    @db.Uuid
+  user_id       String?    @db.Uuid
+  customer_id   String?    @db.Uuid
+  date_send     DateTime?  @db.Timestamptz
+  date_read     DateTime?  @db.Timestamptz
+  mod_name      String?    @db.VarChar(45)
+  ref_id        String?    @db.VarChar(45)
+  recipient     Json
+  subject       String
+  message       String
+  properties    Json
+  resend        Int        @default(1) @db.SmallInt
+  status_id     Int        @default(1) @db.SmallInt
+
+  @@index([track_id])
+  @@map("${TABLE_PREFIX}outbox_email")
+}
+
+model client_user_maps {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String    @db.Uuid
+  user_id       String    @db.Uuid
+  role_id       String?   @db.Uuid
+  ref_id        Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int        @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([user_id])
+  @@map("${TABLE_PREFIX}client_user_maps")
+}
+
+model groups {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  name          String
+  description   String?
+  order         Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  // (opsional tapi disarankan) relasi balik untuk kenyamanan
+  permissions   group_permissions[]
+
+  @@index([client_id])
+  @@map("${TABLE_PREFIX}groups")
+}
+
+model group_permissions {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  group_id      String?   @db.Uuid
+  name          String
+  resource      String?
+  action        String?
+  order         Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  group         groups?   @relation(fields: [group_id], references: [id])
+  
+  @@index([client_id])
+  @@index([group_id])
+  @@map("${TABLE_PREFIX}group_permissions")
+}
+
+model group_user_maps {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String    @db.Uuid
+  group_id      String    @db.Uuid
+  user_id       String    @db.Uuid
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([group_id])
+  @@index([user_id])
+  @@map("${TABLE_PREFIX}group_user_maps")
+}
+
+model categories {
+  id            String    @id @default(uuid()) @db.Uuid
+  parent_id     String?   @db.Uuid
+  client_id     String?   @db.Uuid
+  section       String    @db.VarChar(128)
+  name          String
+  description   String?
+  order         Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([parent_id])
+  @@map("${TABLE_PREFIX}categories")
+}
+
+model configurations {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  section       String
+  sub           String?
+  key           String
+  value         String
+  type          String?
+  title         String?
+  note          String?
+  order         Int       @default(0) @db.SmallInt
+  public        Boolean   @default(false)
+  pro           Boolean   @default(false)
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([key])
+  @@map("${TABLE_PREFIX}configurations")
+}
+
+model modules {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  path          String
+  name          String
+  description   String
+  version       String
+  metadata      Json?
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@map("${TABLE_PREFIX}modules")
+}
+
+model password_reset_tokens {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  token      String   @unique
+  expires_at DateTime @db.Timestamptz
+  created_at DateTime @default(now()) @db.Timestamptz
+  used       Boolean  @default(false)
+
+  @@index([user_id])
+  @@index([token])
+  @@map("${TABLE_PREFIX}password_reset_tokens")
+}
+
+model log_ai {
+  id              String    @id @default(uuid()) @db.Uuid
+  user_id         String?   @db.Uuid
+  client_id       String?   @db.Uuid
+  access_date     DateTime  @default(now()) @db.Timestamptz
+
+  endpoint        String    @db.VarChar(128)
+  module          String?   @db.VarChar(20)
+  ref_id          String?   @db.VarChar(41)
+  platform        String?   @db.VarChar(20)
+  url             String?   @db.VarChar(128)
+  model           String?   @db.VarChar(50)
+  stream          Boolean   @default(false)
+
+  tokens_in       Int?
+  tokens_out      Int?
+  tokens_total    Int?
+
+  request_headers Json?
+  request_body    Json?
+  result          String?   @db.Text
+  result_code     Int?
+
+  process_time    Int?      // milidetik; ganti ke Decimal bila perlu presisi
+
+  created_at      DateTime  @default(now()) @db.Timestamptz
+  updated_at      DateTime  @db.Timestamptz
+  deleted_at      DateTime? @db.Timestamptz
+  status_id       Int       @default(1) @db.SmallInt
+
+  @@index([user_id])
+  @@index([access_date])
+  @@index([endpoint])
+  @@index([model])
+  @@index([status_id])
+  @@index([module, ref_id])
+  @@map("${TABLE_PREFIX}log_ai")
+}

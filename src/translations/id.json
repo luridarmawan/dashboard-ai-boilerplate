@@ -1,0 +1,141 @@
+{
+  "ai":{
+    "hello": "Halo! Apa yang bisa saya bantu?",
+    "typeYourMessage": "Ketik pesan anda...",
+    "send": "Kirim",
+    "loading": "Loading...",
+    "streaming": "Streaming...",
+    "error": "Error",
+    "retry": "Retry",
+    "retryMessage": "Retrying...",
+    "typing": "Sedang menulis...",
+    "typingDelay": "Typing delay...",
+    "typingDelayDescription": "Tunggu sebentar dulu sebelum ngetik lagi ya 😄",
+    "errorEncountered": "Ups, terjadi sedikit kendala saat memproses permintaan Anda. Yuk, coba lagi yaa 😅",
+    "errorCouldNotProcess": "Maaf, aku nggak bisa memproses permintaan itu 😬"
+  },
+  "example": {
+    "list": " List",
+    "name": " Nama",
+    "description": " Deskripsi",
+    "external": " Eksternal",
+    "create": "Buat Contoh",
+    "update": "Update Contoh",
+    "delete": "Hapus Contoh",
+    "deleteConfirm": "Apakah Anda yakin ingin menghapus contoh ini?",
+    "deleteSuccess": "Contoh berhasil dihapus",
+    "createSuccess": "Contoh berhasil dibuat",
+    "updateSuccess": "Contoh berhasil diupdate",
+    "createError": "Gagal membuat contoh",
+    "updateError": "Gagal update contoh",
+    "deleteError": "Gagal hapus contoh",
+    "errorEncountered": "I encountered an error while processing your request. Please try again.",
+    "errorCouldNotProcess": "Sorry, I couldn't process that request.",
+    "loading": "Loading example page..."
+  },
+  "general": {
+    "yes": "Ya",
+    "no": "Tidak",
+    "home": "Beranda",
+    "name": "Nama",
+    "configuration": "Konfigurasi",
+    "loadingSomething": "Sedang memuat...",
+    "writeSomething": "Silakan tulis ...",
+    "backToDashboard": "AI-Powered Dashboard",
+    "description": "Deskripsi",
+    "action": "Aksi",
+    "edit": "Edit",
+    "delete": "Hapus",
+    "submit": "Submit",
+    "save": "Simpan",
+    "fetchError": "Failed fetching data",
+    "cancel": "Batal",
+    "loading": "Loading...",
+    "saveSuccess": "Penyimpanan Berhasil",
+    "saveError": "Penyimpanan Gagal",
+    "deleteSuccess": "Berhasil menghapus",
+    "deleteError": "Gagal menghapus",
+    "confirmDelete": "Apakah Anda yakin ingin menghapus item ini?",
+    "confirmDeleteDescription": "Aksi ini tidak dapat dibatalkan."
+  },
+  "auth": {
+    "signout": "Keluar"
+  },
+  "chat": {
+    "noConversations": "Belum ada percakapan",
+    "startChat": "Mulai percakapan",
+    "newChat": "Percakapan Baru"
+  },
+  "group": {
+    "groupList": "Daftar Group",
+    "groupName": "Nama Group",
+    "groupPermissionList": "Daftar Hak Akses Group",
+    "permissionName": "Name Hak Askes",
+    "resource": "Resource",
+    "action": "Action",
+    "priviledge": "Hak Akses",
+    "updatePermissionSuccess": "Permission berhasil diupdate"
+  },
+  "client": {
+    "clientList": "Daftar Tenant",
+    "clientName": "Nama Tenant"
+  },
+  "configuration": {
+    "advanced": "Advanced",
+    "save": "Simpan",
+    "saving": "Menyimpan...",
+    "saveAdvanced": "Save Advanced Configuration",
+    "saveTemplate": "Save ${sectionName} Configuration",
+    "saveSuccess": "Konfigurasi berhasil disimpan!\nBeberapa perubahan mungkin akan berlaku setelah memuat ulang halaman.",
+    "saveError": "Gagal menyimpan konfigurasi. Silakan coba lagi."
+  },
+  "profile": {
+    "userProfile": "Profil Pengguna",
+    "profile": "Profil",
+    "personalInformation": "Informasi Pribadi",
+    "firstName": "Nama Depan",
+    "lastName": "Nama Belakang",
+    "email": "Email",
+    "emailAddress": "Alamat Email",
+    "phone": "Telepon",
+    "bio": "Bio",
+    "edit": "Edit",
+    "editPersonalInformation": "Edit Informasi Pribadi",
+    "updateDetails": "Perbarui detail Anda untuk menjaga profil tetap terkini.",
+    "editprofile": "Ubah Profil",
+    "saveChanges": "Simpan Perubahan",
+    "close": "Tutup",
+    "saving": "Menyimpan...",
+    "updateSuccess": "Profil berhasil diperbarui!",
+    "updateError": "Gagal memperbarui profil. Silakan coba lagi.",
+    "csrfError": "Kesalahan token keamanan. Silakan coba lagi."
+  },
+  "security": {
+    "devConsole": "Developer Console",
+    "contextMenu": "Context Menu",
+    "devConsoleCheck": "Developer Console Check",
+    "contextMenuCheck": "Context Menu Check",
+    "devConsoleCheckDescription": "Check if developer console disabled",
+    "contextMenuCheckDescription": "Check jika context menu disabled",
+    "intro": "Halaman ini mendemonstrasikan fitur proteksi keamanan aplikasi termasuk developer console dan context menu protection.\nJika proteksi aktif, berbagai aksi akan diblokir atau mengalihkan ke halaman dev-support."
+  },
+  "user": {
+    "userList": "Daftar Pengguna",
+    "firstName": "Nama Depan",
+    "lastName": "Nama Belakang",
+    "lastSeen": "Aktif Terakhir",
+    "phone": "Telepon",
+    "updateSuccess": "Pengguna berhasil diperbarui!",
+    "updateError": "Gagal memperbarui pengguna. Silakan coba lagi.",
+    "deleteSuccess": "Pengguna berhasil dihapus!",
+    "deleteError": "Gagal menghapus pengguna. Silakan coba lagi.",
+    "confirmDelete": "Apakah Anda yakin ingin menghapus pengguna ini?",
+    "delete": "Delete",
+    "confirm": "Confirm"
+  },
+  "err": {
+    "failedUpdateClient": "Gagal memperbarui info client",
+    "networkError": "🌐 Jaringan sedang mengalami gangguan. Silakan coba lagi.",
+    "resetEmail": "🎯 Kami akan mengirimkan instruksi reset password jika email yang dimasukkan sesuai dengan akun yang terdaftar."
+  }
+}
