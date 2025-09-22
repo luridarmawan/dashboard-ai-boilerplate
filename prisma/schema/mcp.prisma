@@ -1,0 +1,39 @@
+// MCP (Model Context Protocol) models
+// transport: stdio, sse, websocket, http, stream
+
+model mcps {
+  id                 String   @id @default(uuid()) @db.Uuid
+  client_id          String?  @db.Uuid
+  name               String   @db.VarChar(100)     // Nama server, mis: "web-server-stdio"
+  transport          String?  @db.VarChar(50)      // stdio, sse, websocket, http, stream
+  command            String?  @db.VarChar(255)     // executable jika stdio/command based
+  args               Json?
+  url                String?  @db.VarChar(2048)
+  env                Json?
+  headers            Json?
+  timeout            Int?
+  reconnect          Boolean?                      // untuk websocket
+  reconnect_interval Int?                          // ms
+  retries            Int?                          // untuk http
+  stream_options     Json?                         // untuk transport stream
+  created_at         DateTime @default(now()) @db.Timestamptz
+  updated_at         DateTime @default(now()) @db.Timestamptz
+  status_id          Int       @default(1) @db.SmallInt
+
+  tools mcp_tools[]
+
+  @@map("${TABLE_PREFIX}mcps")
+}
+
+model mcp_tools {
+  id          String   @id @default(uuid()) @db.Uuid
+  mcp_id      String   @db.Uuid
+  name        String   @db.VarChar(100)
+  config      Json?
+  created_at  DateTime @default(now()) @db.Timestamptz
+  status_id   Int       @default(1) @db.SmallInt
+
+  mcp         mcps     @relation(fields: [mcp_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("${TABLE_PREFIX}mcp_tools")
+}

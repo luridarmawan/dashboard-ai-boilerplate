@@ -1,0 +1,459 @@
+
+// ⚡️ Auto-generated Prisma schema - hands off!
+// This beauty was crafted by our schema generator ✨
+// Want changes? Work your magic in: "scripts/generate-schema.js"
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  email         String    @unique
+  password_hash String?
+  google_id     String?   @unique
+  x_id          String?   @unique
+  github_id     String?   @unique
+  first_name    String    @db.VarChar(100)
+  last_name     String    @db.VarChar(100)
+  phone         String?   @db.VarChar(16)
+  alias         String?   @db.VarChar(10)
+  description   String?
+  avatar        String?   @db.VarChar(512)
+  last_seen     DateTime? @db.Timestamptz
+  ip            String?   @db.VarChar(45)
+  balance       Decimal   @default(0.00) @db.Decimal(18,4)
+  credit        Decimal   @default(0.00) @db.Decimal(18,4)
+  verification_token      String? @db.VarChar(45)
+  verification_token_expires  DateTime? @db.Timestamptz
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  // Back-relations (virtual, tidak menambah kolom DB)
+  conversations_created    conversations[]             @relation("UserConversationsCreated")
+  conversation_memberships conversation_participants[] @relation("UserConversationParticipants")
+  messages_authored        messages[]                  @relation("UserMessagesAuthored")
+
+  @@index([email])
+  @@map("app_users")
+}
+
+model clients {
+  id            String    @id @default(uuid()) @db.Uuid
+  parent_id     String?   @db.Uuid
+  name          String
+  description   String?
+  balance       Decimal   @default(0.00) @db.Decimal(18,4)
+  credit        Decimal   @default(0.00) @db.Decimal(18,4)
+  metadata      Json?
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([parent_id])
+  @@map("app_clients")
+}
+
+model outbox_email {
+  id            String     @id @default(uuid()) @db.Uuid
+  track_id      String?    @db.Uuid
+  client_id     String?    @db.Uuid
+  user_id       String?    @db.Uuid
+  customer_id   String?    @db.Uuid
+  date_send     DateTime?  @db.Timestamptz
+  date_read     DateTime?  @db.Timestamptz
+  mod_name      String?    @db.VarChar(45)
+  ref_id        String?    @db.VarChar(45)
+  recipient     Json
+  subject       String
+  message       String
+  properties    Json
+  resend        Int        @default(1) @db.SmallInt
+  status_id     Int        @default(1) @db.SmallInt
+
+  @@index([track_id])
+  @@map("app_outbox_email")
+}
+
+model client_user_maps {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String    @db.Uuid
+  user_id       String    @db.Uuid
+  role_id       String?   @db.Uuid
+  ref_id        Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int        @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([user_id])
+  @@map("app_client_user_maps")
+}
+
+
+model groups {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  name          String
+  description   String?
+  order         Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  // (opsional tapi disarankan) relasi balik untuk kenyamanan
+  permissions   group_permissions[]
+
+  @@index([client_id])
+  @@map("app_groups")
+}
+
+model group_permissions {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  group_id      String?   @db.Uuid
+  name          String
+  resource      String?
+  action        String?
+  order         Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  group         groups?   @relation(fields: [group_id], references: [id])
+  
+  @@index([client_id])
+  @@index([group_id])
+  @@map("app_group_permissions")
+}
+
+model group_user_maps {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String    @db.Uuid
+  group_id      String    @db.Uuid
+  user_id       String    @db.Uuid
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([group_id])
+  @@index([user_id])
+  @@map("app_group_user_maps")
+}
+
+model categories {
+  id            String    @id @default(uuid()) @db.Uuid
+  parent_id     String?   @db.Uuid
+  client_id     String?   @db.Uuid
+  section       String    @db.VarChar(128)
+  name          String
+  description   String?
+  order         Int       @default(0) @db.SmallInt
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([parent_id])
+  @@map("app_categories")
+}
+
+model configurations {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  section       String
+  key           String
+  value         String
+  type          String?
+  title         String?
+  note          String?
+  order         Int       @default(0) @db.SmallInt
+  public        Boolean   @default(false)
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([client_id])
+  @@index([key])
+  @@map("app_configurations")
+}
+
+model password_reset_tokens {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  token      String   @unique
+  expires_at DateTime @db.Timestamptz
+  created_at DateTime @default(now()) @db.Timestamptz
+  used       Boolean  @default(false)
+
+  @@index([user_id])
+  @@index([token])
+  @@map("app_password_reset_tokens")
+}
+
+
+model log_ai {
+  id              String    @id @default(uuid()) @db.Uuid
+  user_id         String?   @db.Uuid
+  client_id       String?   @db.Uuid
+  access_date     DateTime  @default(now()) @db.Timestamptz
+
+  endpoint        String    @db.VarChar(128)
+  module          String?   @db.VarChar(20)
+  ref_id          String?   @db.VarChar(41)
+  platform        String?   @db.VarChar(20)
+  url             String?   @db.VarChar(128)
+  model           String?   @db.VarChar(50)
+  stream          Boolean   @default(false)
+
+  tokens_in       Int?
+  tokens_out      Int?
+  tokens_total    Int?
+
+  request_headers Json?
+  request_body    Json?
+  result          String?   @db.Text
+  result_code     Int?
+
+  process_time    Int?      // milidetik; ganti ke Decimal bila perlu presisi
+
+  created_at      DateTime  @default(now()) @db.Timestamptz
+  updated_at      DateTime  @db.Timestamptz
+  deleted_at      DateTime? @db.Timestamptz
+  status_id       Int       @default(1) @db.SmallInt
+
+  @@index([user_id])
+  @@index([access_date])
+  @@index([endpoint])
+  @@index([model])
+  @@index([status_id])
+  @@index([module, ref_id])
+  @@map("app_log_ai")
+}
+
+
+// ===================================================================================================================
+// Conversations
+// ===================================================================================================================
+
+
+// =======================
+// Enums
+// =======================
+enum MessageRole {
+  user
+  assistant
+  system
+  tool
+
+  @@map("app_message_role")
+}
+
+enum ParticipantRole {
+  owner
+  editor
+  viewer
+
+  @@map("app_participant_role")
+}
+
+// =======================
+// Conversations
+// =======================
+model conversations {
+  id               String    @id @default(uuid()) @db.Uuid
+  user_id          String    @db.Uuid
+  client_id        String?   @db.Uuid
+  title            String?   @db.VarChar(255)
+  created_by       String?   @db.Uuid
+  last_message_at  DateTime? @db.Timestamptz
+  is_archived      Boolean   @default(false)
+  created_at       DateTime  @default(now()) @db.Timestamptz
+  updated_at       DateTime  @default(now()) @db.Timestamptz
+  deleted_at       DateTime? @db.Timestamptz
+  status_id        Int       @default(1) @db.SmallInt
+
+  // Relations
+  creator      users?        @relation("UserConversationsCreated", fields: [created_by], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  participants conversation_participants[]
+  messages     messages[]
+
+  @@index([created_by])
+  @@index([last_message_at])
+  @@map("app_conversations")
+}
+
+// =======================
+// Participants (optional, jika butuh multi-user per percakapan)
+// =======================
+model conversation_participants {
+  id              String           @id @default(uuid()) @db.Uuid
+  conversation_id String           @db.Uuid
+  user_id         String           @db.Uuid
+  role            String           @db.VarChar(10) @default("viewer")
+  created_at      DateTime         @default(now()) @db.Timestamptz
+
+  conversation conversations       @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user         users               @relation("UserConversationParticipants", fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+//  @@id([conversation_id, user_id])
+  @@index([user_id])
+  @@map("app_conversation_participants")
+}
+
+// =======================
+// Messages
+// =======================
+model messages {
+  id                String    @id @default(uuid()) @db.Uuid
+  conversation_id   String    @db.Uuid
+  parent_id         String?   @db.Uuid
+  role              String?   @db.VarChar(10)
+  user_id           String?   @db.Uuid
+  client_id         String?   @db.Uuid
+  endpoint          String?   @db.VarChar(100)
+  model             String?   @db.VarChar(100)
+  content           String?   @db.Text
+  content_json      Json?
+  tool_name         String?   @db.VarChar(80)
+  tool_call_id      String?   @db.VarChar(80)
+  prompt_tokens     Int?
+  completion_tokens Int?
+  total_tokens      Int?
+  latency_ms        Int?
+  cost_input        Decimal?  @db.Decimal(18, 6)
+  cost_output       Decimal?  @db.Decimal(18, 6)
+  status_code       Int?
+  error_message     String?   @db.Text
+  request_headers   Json?
+  request_body      Json?
+  created_at        DateTime  @default(now()) @db.Timestamptz
+  updated_at        DateTime  @default(now()) @db.Timestamptz
+  deleted_at        DateTime? @db.Timestamptz
+  status_id         Int       @default(1) @db.SmallInt
+
+  conversation conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parent       messages?     @relation("MessageThread", fields: [parent_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  children     messages[]    @relation("MessageThread")
+  author       users?        @relation("UserMessagesAuthored", fields: [user_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  attachments  message_attachments[]
+
+  @@index([conversation_id, created_at])
+  @@index([parent_id])
+  @@index([role])
+  @@index([model])
+  @@index([status_id])
+  @@map("app_messages")
+}
+
+// =======================
+// Attachments (opsional)
+// =======================
+model message_attachments {
+  id           String   @id @default(uuid()) @db.Uuid
+  message_id   String   @db.Uuid
+  name         String   @db.VarChar(255)
+  mime_type    String?  @db.VarChar(120)
+  size_bytes   Int?
+  url          String?  @db.VarChar(2048)  // bisa S3/Cloud
+  meta         Json?
+  created_at   DateTime @default(now()) @db.Timestamptz
+  status_id          Int       @default(1) @db.SmallInt  
+
+  message      messages @relation(fields: [message_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([message_id])
+  @@map("app_message_attachments")
+}
+
+// ===================================================================================================================
+// Conversations - end
+// ===================================================================================================================
+
+// ===================================================================================================================
+// MCP
+// transport: stdio, sse, websocket, http, stream
+// ===================================================================================================================
+
+model mcps {
+  id                 String   @id @default(uuid()) @db.Uuid
+  client_id          String?  @db.Uuid
+  name               String   @db.VarChar(100)     // Nama server, mis: "web-server-stdio"
+  transport          String?  @db.VarChar(50)      // stdio, sse, websocket, http, stream
+  command            String?  @db.VarChar(255)     // executable jika stdio/command based
+  args               Json?
+  url                String?  @db.VarChar(2048)
+  env                Json?
+  headers            Json?
+  timeout            Int?
+  reconnect          Boolean?                      // untuk websocket
+  reconnect_interval Int?                          // ms
+  retries            Int?                          // untuk http
+  stream_options     Json?                         // untuk transport stream
+  created_at         DateTime @default(now()) @db.Timestamptz
+  updated_at         DateTime @default(now()) @db.Timestamptz
+  status_id          Int       @default(1) @db.SmallInt
+
+  tools mcp_tools[]
+
+  @@map("app_mcps")
+}
+
+model mcp_tools {
+  id          String   @id @default(uuid()) @db.Uuid
+  mcp_id      String   @db.Uuid
+  name        String   @db.VarChar(100)
+  config      Json?
+  created_at  DateTime @default(now()) @db.Timestamptz
+  status_id   Int       @default(1) @db.SmallInt
+
+  mcp         mcps     @relation(fields: [mcp_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("app_mcp_tools")
+}
+
+
+// ===================================================================================================================
+// MCP - end
+// ===================================================================================================================
+
+
+// D:\course\admin\0-nyerah\0-csr-track\server\modules\example\schema.prisma
+
+model examples {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  parent_id     String?   @db.Uuid
+  name          String
+  description   String?
+  metadata      Json?
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([parent_id])
+  @@map("app_examples")
+}
+
+
+
+// D:\course\admin\0-nyerah\0-csr-track\server\modules\contoh\schema.prisma
+
+model contoh {
+  id            String    @id @default(uuid()) @db.Uuid
+  client_id     String?   @db.Uuid
+  parent_id     String?   @db.Uuid
+  name          String
+  description   String?
+  metadata      Json?
+  updated_at    DateTime  @default(now()) @db.Timestamptz
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  status_id     Int       @default(1) @db.SmallInt
+
+  @@index([parent_id])
+  @@map("app_contoh")
+}

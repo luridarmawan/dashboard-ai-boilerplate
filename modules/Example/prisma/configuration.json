@@ -1,0 +1,41 @@
+[
+  {
+    "section": "Example",
+    "key": "example.some_key",
+    "value": "true",
+    "type": "boolean",
+    "title": "Auto-Reload Example",
+    "note": "A sample configuration using the 'boolean' data type. Toggle it on or off, just like a light switch.",
+    "order": 1,
+    "public": true
+  },
+  {
+    "section": "Example",
+    "key": "example.title",
+    "value": "Example Page",
+    "type": "string",
+    "title": "Example Page Title",
+    "order": 2,
+    "note": "",
+    "public": true
+  },
+  {
+    "section": "Example",
+    "key": "example.key",
+    "value": "this-is-secret-key",
+    "type": "secret",
+    "title": "Example Secret Key",
+    "order": 3,
+    "note": "A sample configuration using the `secret` data type. Keep it safe—this one's not for public eyes."
+  },
+  {
+    "section": "Example",
+    "key": "example.footerinfo",
+    "value": "You can customize page title and this text anytime through the **[configuration](/configuration#example)**.\nFor the very first setup, just edit it directly in the `modules/Example/api/prisma/configuration.json` file.",
+    "type": "text",
+    "title": "Example Page Footer Info",
+    "note": "This string will appear at the bottom of the [Example page](/example).\nCheck it out in: `modules/Example/frontend/ExampleMain.tsx`",
+    "order": 4,
+    "public": true
+  }
+]

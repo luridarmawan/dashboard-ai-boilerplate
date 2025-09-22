@@ -1,0 +1,9 @@
+{
+  "module": "Example",
+  "name": "Example Module",
+  "description": "A sleek and playful example module designed to power up your AI-Driven Admin Dashboard experience.",
+  "version": "2.3.1",
+  "author": "CARIK.id",
+  "url": "https://carik.id",
+  "license": "MIT"
+}

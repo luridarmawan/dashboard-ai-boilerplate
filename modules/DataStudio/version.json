@@ -1,0 +1,9 @@
+{
+  "module": "Data Studio",
+  "name": "Data Studio with Simple File Explorer on Cloud Service",
+  "description": "A sleek and playful Data Studio module designed to power up your AI-Driven Admin Dashboard experience.",
+  "version": "1.0.0",
+  "author": "CARIK.id",
+  "url": "https://carik.id",
+  "license": "MIT"
+}

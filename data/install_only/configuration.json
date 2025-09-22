@@ -1,0 +1,200 @@
+[
+  {
+    "section": "general",
+    "key": "general.show_conversation_list",
+    "value": "true",
+    "type": "boolean",
+    "title": "Show conversation list in the sidebar",
+    "note": "example note of Show conversation list in the sidebar",
+    "public": true,
+    "status_id": 0
+  },
+  {
+    "section": "general",
+    "key": "api.rate_limit.default",
+    "value": "120",
+    "title": "Default rate limit per minute for API requests",
+    "pro": true,
+    "status_id": 0
+  },
+  {
+    "section": "general",
+    "key": "security.jwt.expiry",
+    "value": "7d",
+    "title": "JWT token expiry duration",
+    "status_id": 0
+  },
+  {
+    "section": "general",
+    "key": "security.password.min_length",
+    "value": "8",
+    "title": "Minimum password length requirement",
+    "status_id": 0
+  },
+  {
+    "section": "general",
+    "key": "logging.level",
+    "value": "info",
+    "title": "Application logging level (debug, info, warn, error)",
+    "status_id": 0
+  },
+  {
+    "section": "general",
+    "key": "features.audit.enabled",
+    "value": "true",
+    "type": "boolean",
+    "title": "Enable audit log trail",
+    "pro": true,
+    "status_id": 0
+  },
+  {
+    "section": "ai",
+    "key": "ai.enable",
+    "value": "true",
+    "type": "boolean",
+    "title": "Enable AI Mode",
+    "public": true,
+    "status_id": 0
+  },
+  {
+    "section": "ai",
+    "key": "ai.key",
+    "value": "",
+    "type": "secret",
+    "title": "AI Key",
+    "status_id": 0
+  },
+  {
+    "section": "ai",
+    "key": "ai.baseurl",
+    "value": "",
+    "type": "string",
+    "title": "URL for your OpenAI-Compatible API",
+    "note": "URL for your OpenAI-Compatible API\nExample:\n- OpenAI: https://api.openai.com/v1\n- Ollama (local): http://localhost:11434/v1\n- Jan (local): http://localhost:1337/v1\n- LocalAI (local): http://localhost:8080/v1",
+    "public": false,
+    "status_id": 0
+  },
+  {
+    "section": "ai",
+    "key": "ai.model",
+    "value": "",
+    "type": "string",
+    "title": "Default AI Model",
+    "public": true,
+    "status_id": 0
+  },
+  {
+    "section": "ai",
+    "key": "ai.system_prompt",
+    "value": "",
+    "type": "text",
+    "title": "Default System Prompt",
+    "note": "Default System Prompt\nExample:\n- You are a helpful assistant\n- You are a helpful assistant that always about dashboard.\n\nAvailable Parameters:\n- {{dashboardUrl}}\n- {{currentDateTime}}\n- {{timezone}}\n- {{user.fullName}}\n- {{user.email}}\n",
+    "public": true,
+    "status_id": 0
+  },
+  {
+    "section": "ai",
+    "key": "ai.stream",
+    "value": "false",
+    "type": "boolean",
+    "title": "Enable AI Stream Mode",
+    "public": true,
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "developer.mode",
+    "value": "true",
+    "type": "boolean",
+    "title": "Enable developer mode",
+    "public": true,
+    "order": 1,
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "developer.console.protection",
+    "value": "false",
+    "type": "boolean",
+    "title": "Enable developer console protection",
+    "public": true,
+    "order": 2,
+    "pro": true,
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "context.menu.protection",
+    "value": "false",
+    "type": "boolean",
+    "title": "Enable context menu protection",
+    "public": true,
+    "pro": true,
+    "order": 3,
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "maintenance.mode",
+    "value": "false",
+    "type": "boolean",
+    "title": "Enable Maintenance Mode (Reserved for Future Use)",
+    "order": 99,
+    "status_id": 0
+  },
+  {
+    "section": "Email",
+    "key": "email.host",
+    "value": "",
+    "type": "string",
+    "title": "Email Host",
+    "order": 1,
+    "status_id": 0
+  },
+  {
+    "section": "Email",
+    "key": "email.port",
+    "value": "587",
+    "type": "string",
+    "title": "Email Port",
+    "order": 2,
+    "status_id": 0
+  },
+  {
+    "section": "Email",
+    "key": "email.from",
+    "value": "Dashboard Support",
+    "type": "string",
+    "title": "Email From Name",
+    "order": 3,
+    "status_id": 0
+  },
+  {
+    "section": "Email",
+    "key": "email.username",
+    "value": "yourname@email.com",
+    "type": "string",
+    "title": "Email Username",
+    "order": 4,
+    "status_id": 0
+  },
+  {
+    "section": "Email",
+    "key": "email.password",
+    "value": "",
+    "type": "secret",
+    "title": "Email Password",
+    "order": 5,
+    "status_id": 0
+  },
+  {
+    "section": "Email",
+    "key": "email.bcc",
+    "value": "",
+    "type": "string",
+    "title": "BCC",
+    "order": 6,
+    "status_id": 0
+  }
+]

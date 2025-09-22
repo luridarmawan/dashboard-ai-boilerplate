@@ -1,0 +1,2 @@
+Generate one short topic in the same language used by the user from the following conversation between user and AI assistant, maximum 255 characters.
+Reply only with the topic name, no explanations, and ensure the language matches the user’s language below.

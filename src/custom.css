@@ -1,0 +1,115 @@
+#chat-message {
+  /*  */
+}
+
+.logo-header-mobile img {
+  max-height: 47px;
+}
+
+.markdown-body {
+  h1 {
+    margin-top: 5px;
+  }
+  h2 {
+    margin-top: 5px;
+  }
+  a {
+    color: #465fff;
+  }
+  a:hover {
+    background-color: antiquewhite;
+  }
+  p {
+    padding: 0px;
+    margin: 0px;
+    margin-top: 5px;
+  }
+  hr {
+    margin-top: 3px;
+  }
+  table {
+    margin: 10px 10px;
+    border-collapse: collapse;
+    background-color: white; /* Supaya shadow terlihat */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    /* box-shadow: 0 4px 6px rgba(0,0,0,0.1); */
+    border-radius: 8px; /* Opsional, biar sudutnya tumpul */
+    overflow: hidden; /* Biar radius kepotong rapi */
+  }
+  table th, table td {
+    padding: 2px 5px;
+    border: 1px solid #1b05b7;
+  }
+
+  ol {
+    list-style: decimal;   /* tampilkan nomor urut */
+    padding-left: 1.5em;   /* beri jarak supaya nomor tidak terlalu mepet */
+  }
+  ol li {
+    margin: 0 10px;
+  }
+
+  pre {
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid #e0e6ed;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    background: #f5f7fa; /* abu muda lembut */
+    font-size: 80%;
+    line-height: 1.4;
+  }
+  code {
+    padding: 5px;
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 80%;
+    color: #d6336c; /* merah keunguan lembut */
+    white-space: pre-wrap; /* agar tetap rapi di layar kecil */
+  }
+}
+
+.text-xxs {
+  font-size: 10px;
+  line-height: calc(1/0.95)
+}
+
+.text-xxxs {
+  font-size: 10px;
+  line-height: calc(1/0.95)
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.7);
+}
+
+/* Dark mode scrollbar */
+.dark .custom-scrollbar {
+  scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(75, 85, 99, 0.5);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(75, 85, 99, 0.7);
+}

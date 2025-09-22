@@ -1,0 +1,12 @@
+[
+  {
+    "code": "id",
+    "name": "Indonesia",
+    "flag": "/images/country/id.svg"
+  },
+  {
+    "code": "en",
+    "name": "English",
+    "flag": "/images/country/gb.svg"
+  }
+]

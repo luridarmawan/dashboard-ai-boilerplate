@@ -1,0 +1,11 @@
+// ==============================================
+// Multi schema prisma file example
+// ==============================================
+
+model multi_schema_file_example {
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String
+  description   String
+
+  @@map("multi_schema_file_example")
+}

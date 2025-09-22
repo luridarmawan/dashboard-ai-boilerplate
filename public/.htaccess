@@ -1,0 +1,69 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # HTTPS redirect
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # (Opsional) Blok akses langsung .br/.gz agar hanya via rewrite
+  # RewriteRule \.(br|gz)$ - [F]
+
+  # ===== Brotli prefered (.br) =====
+  RewriteCond %{HTTP:Accept-encoding} br
+  RewriteCond %{REQUEST_FILENAME}\.br -s
+  RewriteRule ^(.+)\.js$ $1.js.br [QSA,L,T=application/javascript]
+  RewriteCond %{HTTP:Accept-encoding} br
+  RewriteCond %{REQUEST_FILENAME}\.br -s
+  RewriteRule ^(.+)\.css$ $1.css.br [QSA,L,T=text/css]
+  RewriteCond %{HTTP:Accept-encoding} br
+  RewriteCond %{REQUEST_FILENAME}\.br -s
+  RewriteRule ^(.+)\.(html|svg|json)$ $1.$2.br [QSA,L]
+
+  # ===== Gzip fallback (.gz) =====
+  RewriteCond %{HTTP:Accept-encoding} gzip
+  RewriteCond %{REQUEST_FILENAME}\.gz -s
+  RewriteRule ^(.+)\.js$ $1.js.gz [QSA,L,T=application/javascript]
+  RewriteCond %{HTTP:Accept-encoding} gzip
+  RewriteCond %{REQUEST_FILENAME}\.gz -s
+  RewriteRule ^(.+)\.css$ $1.css.gz [QSA,L,T=text/css]
+  RewriteCond %{HTTP:Accept-encoding} gzip
+  RewriteCond %{REQUEST_FILENAME}\.gz -s
+  RewriteRule ^(.+)\.(html|svg|json)$ $1.$2.gz [QSA,L]
+
+  # React Router (SPA) fallback
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+</IfModule>
+
+<IfModule mod_mime.c>
+  # MIME types untuk ekstensi asli
+  AddType application/javascript .js
+  AddType text/css .css
+  AddType text/html .html
+  AddType application/json .json
+  AddType image/svg+xml .svg
+
+  # MIME types untuk file terkompres
+  AddType application/javascript .js.br
+  AddType text/css .css.br
+  AddType application/javascript .js.gz
+  AddType text/css .css.gz
+
+  # Encoding utk file terkompres
+  AddEncoding br .br
+  AddEncoding gzip .gz
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header append Vary Accept-Encoding
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Hindari double-compress
+SetEnvIfNoCase Request_URI "\.(?:br|gz)$" no-gzip no-brotli

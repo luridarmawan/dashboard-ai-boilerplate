@@ -1,0 +1,9 @@
+{
+  "module": "Accounting",
+  "name": "Accounting",
+  "description": "Accounting is a module that provides accounting activity.",
+  "version": "1.0.1",
+  "author": "CARIK.id",
+  "url": "https://carik.id",
+  "license": ""
+}

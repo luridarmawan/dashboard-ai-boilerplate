@@ -1,0 +1,130 @@
+// Conversation models
+
+// =======================
+// Enums
+// =======================
+enum MessageRole {
+  user
+  assistant
+  system
+  tool
+
+  @@map("${TABLE_PREFIX}message_role")
+}
+
+enum ParticipantRole {
+  owner
+  editor
+  viewer
+
+  @@map("${TABLE_PREFIX}participant_role")
+}
+
+// =======================
+// Conversations
+// =======================
+model conversations {
+  id               String    @id @default(uuid()) @db.Uuid
+  user_id          String    @db.Uuid
+  client_id        String?   @db.Uuid
+  title            String?   @db.VarChar(255)
+  created_by       String?   @db.Uuid
+  last_message_at  DateTime? @db.Timestamptz
+  is_archived      Boolean   @default(false)
+  created_at       DateTime  @default(now()) @db.Timestamptz
+  updated_at       DateTime  @default(now()) @db.Timestamptz
+  deleted_at       DateTime? @db.Timestamptz
+  status_id        Int       @default(1) @db.SmallInt
+
+  // Relations
+  creator      users?        @relation("UserConversationsCreated", fields: [created_by], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  participants conversation_participants[]
+  messages     messages[]
+
+  @@index([created_by])
+  @@index([last_message_at])
+  @@map("${TABLE_PREFIX}conversations")
+}
+
+// =======================
+// Participants (optional, jika butuh multi-user per percakapan)
+// =======================
+model conversation_participants {
+  id              String           @id @default(uuid()) @db.Uuid
+  conversation_id String           @db.Uuid
+  user_id         String           @db.Uuid
+  role            String           @db.VarChar(10) @default("viewer")
+  created_at      DateTime         @default(now()) @db.Timestamptz
+
+  conversation conversations       @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user         users               @relation("UserConversationParticipants", fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+//  @@id([conversation_id, user_id])
+  @@index([user_id])
+  @@map("${TABLE_PREFIX}conversation_participants")
+}
+
+// =======================
+// Messages
+// =======================
+model messages {
+  id                String    @id @default(uuid()) @db.Uuid
+  conversation_id   String    @db.Uuid
+  parent_id         String?   @db.Uuid
+  role              String?   @db.VarChar(10)
+  user_id           String?   @db.Uuid
+  client_id         String?   @db.Uuid
+  endpoint          String?   @db.VarChar(100)
+  model             String?   @db.VarChar(100)
+  content           String?   @db.Text
+  content_json      Json?
+  tool_name         String?   @db.VarChar(80)
+  tool_call_id      String?   @db.VarChar(80)
+  prompt_tokens     Int?
+  completion_tokens Int?
+  total_tokens      Int?
+  latency_ms        Int?
+  cost_input        Decimal?  @db.Decimal(18, 6)
+  cost_output       Decimal?  @db.Decimal(18, 6)
+  status_code       Int?
+  error_message     String?   @db.Text
+  request_headers   Json?
+  request_body      Json?
+  created_at        DateTime  @default(now()) @db.Timestamptz
+  updated_at        DateTime  @default(now()) @db.Timestamptz
+  deleted_at        DateTime? @db.Timestamptz
+  status_id         Int       @default(1) @db.SmallInt
+
+  conversation conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parent       messages?     @relation("MessageThread", fields: [parent_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  children     messages[]    @relation("MessageThread")
+  author       users?        @relation("UserMessagesAuthored", fields: [user_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  attachments  message_attachments[]
+
+  @@index([conversation_id, created_at])
+  @@index([parent_id])
+  @@index([role])
+  @@index([model])
+  @@index([status_id])
+  @@map("${TABLE_PREFIX}messages")
+}
+
+// =======================
+// Attachments (opsional)
+// =======================
+model message_attachments {
+  id           String   @id @default(uuid()) @db.Uuid
+  message_id   String   @db.Uuid
+  name         String   @db.VarChar(255)
+  mime_type    String?  @db.VarChar(120)
+  size_bytes   Int?
+  url          String?  @db.VarChar(2048)  // bisa S3/Cloud
+  meta         Json?
+  created_at   DateTime @default(now()) @db.Timestamptz
+  status_id          Int       @default(1) @db.SmallInt  
+
+  message      messages @relation(fields: [message_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([message_id])
+  @@map("${TABLE_PREFIX}message_attachments")
+}
