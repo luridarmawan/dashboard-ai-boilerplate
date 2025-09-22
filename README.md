@@ -8,19 +8,19 @@ Designed as a **boilerplate for SaaS and AI-enabled applications**, it comes wit
 
 **Where Design Meets Intelligence — The AI-Enhanced Dashboard Boilerplate.**
 
-## Features
+## ✨ Features
 
-- **AI Enabler** – ready to integrate artificial intelligence.  
-- **SaaS Ready (Multi-Tenancy)** – supports multi-tenant architecture for SaaS applications.  
+- ⚡ **AI Enabler** – ready to integrate artificial intelligence.  
+- 🏢 **SaaS Ready (Multi-Tenancy)** – supports multi-tenant architecture for SaaS applications.  
+- 🌍 **Multi Language Support** – built-in multilingual support.  
+- 📖 **Interactive API Documentation** – comprehensive and interactive API documentation.  
+- 🚀 **Optimized Loading Performance** – faster performance with chunking build optimization.  
+- 🔒 **Role-Based Access Control (RBAC)** – fine-grained access control by roles.  
 - **MCP (Model Context Protocol) Ready** – fully compatible with MCP protocol for model integration.  
-- **Multi Language Support** – built-in multilingual support.  
-- **Interactive API Documentation** – comprehensive and interactive API documentation.  
 - **CSRF Protection** – enhanced security with CSRF protection.  
 - **Chat AI** – supports both streaming and post modes.  
 - **Social Media Login** – authentication with popular social media accounts.  
 - **Soft Delete** – data is never permanently deleted, only marked as removed.  
-- **Optimized Loading Performance** – faster performance with chunking build optimization.  
-- **Role-Based Access Control (RBAC)** – fine-grained access control by roles.  
 - **Rate Limiting** – request throttling to prevent abuse.  
 
 ## Extra Advantages
@@ -39,16 +39,39 @@ Designed as a **boilerplate for SaaS and AI-enabled applications**, it comes wit
 - Bun or npm  
 - PostgreSQL database  
 
-## Setup
+## 📦 Tech Stack
+
+- **Frontend**: React + Tailwind + Vite
+- **Backend**: Node.js + Express
+- **Database**: PostgreSQL
+- **Package Manager**: Bun / npm
+
+
+## 🚀 Quick Start Setup
 
 1. Install dependencies:  
    ```bash
    bun install
    ```
 
-2. Set up the database:  
+2. Initialize the database:
    ```bash
    bun run db:init
+   ```
+
+3. Run frontend (port 8085)
+   ```bash
+   bun run dev
+   ```
+
+4. Run API server (port 8088)
+   ```bash
+   bun run api:dev
+   ```
+
+5. Run both together
+   ```bash
+   bun run dev:all
    ```
 
 ## Environment Configuration
