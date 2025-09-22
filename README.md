@@ -76,11 +76,11 @@ Designed as a **boilerplate for SaaS and AI-enabled applications**, it comes wit
 
 ## Environment Configuration
 
-Create a `.env` file based on the provided template with your configuration:  
-- Frontend runs on port **5173** by default  
-- API server runs on port **8082** by default  
-- Configure your PostgreSQL database connection  
-- Configure your email settings for email notifications (optional)  
+Create a `.env` file based on the provided template with your configuration:
+- Frontend runs on port **8085** by default
+- API server runs on port **8088** by default
+- Configure your PostgreSQL database connection
+- Configure your email settings for email notifications (optional)
 
 ## Email Library
 
@@ -120,13 +120,13 @@ For detailed documentation, see [Email Library Documentation](./docs/email-libra
 
 2. **API Server only:**  
    ```bash
-   bun run server
+   bun run api:dev
    ```
    Runs the Express API server on port 8082 (http://localhost:8082).
 
 3. **Both API and Frontend simultaneously:**  
    ```bash
-   bun run dev:full
+   bun run dev:all
    ```
    Runs both servers concurrently using the `concurrently` package.
 
@@ -147,8 +147,8 @@ For detailed documentation, see [Email Library Documentation](./docs/email-libra
 ## API Endpoints
 
 Once the API server is running, you can access:  
-- Health check: http://localhost:8082/api/health  
-- Auth endpoints: http://localhost:8082/api/auth/...  
+- Health check: http://localhost:8088/api/health  
+- Auth endpoints: http://localhost:8088/api/auth/...  
 
 ## Database Management
 
