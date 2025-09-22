@@ -1,22 +1,26 @@
-# AI-Powered Admin Dashboard — React + Tailwind CSS, by CARIK.id
+# AI-Powered Admin Dashboard
 
-This is a React-based admin dashboard application with a Node.js/Express API backend.
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?logo=tailwind-css) ![Node.js](https://img.shields.io/badge/Node.js-16%2B-339933?logo=node.js) ![Bun](https://img.shields.io/badge/Bun-1.x-black?logo=bun)  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13%2B-336791?logo=postgresql)  
+
+An intelligent and modern admin dashboard built with **React**, **Tailwind CSS**, and a **Node.js/Express backend**.  
+Designed as a **boilerplate for SaaS and AI-enabled applications**, it comes with **multi-tenancy support, role-based access control, API documentation, and multilingual configuration** out of the box.
+
 
 **Where Design Meets Intelligence — The AI-Enhanced Dashboard Boilerplate.**
 
-## Features
+## ✨ Features
 
-- **AI Enabler** – ready to integrate artificial intelligence.  
-- **SaaS Ready (Multi-Tenancy)** – supports multi-tenant architecture for SaaS applications.  
+- ⚡ **AI Enabler** – ready to integrate artificial intelligence.  
+- 🏢 **SaaS Ready (Multi-Tenancy)** – supports multi-tenant architecture for SaaS applications.  
+- 🌍 **Multi Language Support** – built-in multilingual support.  
+- 📖 **Interactive API Documentation** – comprehensive and interactive API documentation.  
+- 🚀 **Optimized Loading Performance** – faster performance with chunking build optimization.  
+- 🔒 **Role-Based Access Control (RBAC)** – fine-grained access control by roles.  
 - **MCP (Model Context Protocol) Ready** – fully compatible with MCP protocol for model integration.  
-- **Multi Language Support** – built-in multilingual support.  
-- **Interactive API Documentation** – comprehensive and interactive API documentation.  
 - **CSRF Protection** – enhanced security with CSRF protection.  
 - **Chat AI** – supports both streaming and post modes.  
 - **Social Media Login** – authentication with popular social media accounts.  
 - **Soft Delete** – data is never permanently deleted, only marked as removed.  
-- **Optimized Loading Performance** – faster performance with chunking build optimization.  
-- **Role-Based Access Control (RBAC)** – fine-grained access control by roles.  
 - **Rate Limiting** – request throttling to prevent abuse.  
 
 ## Extra Advantages
@@ -35,16 +39,39 @@ This is a React-based admin dashboard application with a Node.js/Express API bac
 - Bun or npm  
 - PostgreSQL database  
 
-## Setup
+## 📦 Tech Stack
+
+- **Frontend**: React + Tailwind + Vite
+- **Backend**: Node.js + Express
+- **Database**: PostgreSQL
+- **Package Manager**: Bun / npm
+
+
+## 🚀 Quick Start Setup
 
 1. Install dependencies:  
    ```bash
    bun install
    ```
 
-2. Set up the database:  
+2. Initialize the database:
    ```bash
    bun run db:init
+   ```
+
+3. Run frontend (port 8085)
+   ```bash
+   bun run dev
+   ```
+
+4. Run API server (port 8088)
+   ```bash
+   bun run api:dev
+   ```
+
+5. Run both together
+   ```bash
+   bun run dev:all
    ```
 
 ## Environment Configuration
