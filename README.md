@@ -1,6 +1,10 @@
-# AI-Powered Admin Dashboard — React + Tailwind CSS, by CARIK.id
+# AI-Powered Admin Dashboard
 
-This is a React-based admin dashboard application with a Node.js/Express API backend.
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?logo=tailwind-css) ![Node.js](https://img.shields.io/badge/Node.js-16%2B-339933?logo=node.js) ![Bun](https://img.shields.io/badge/Bun-1.x-black?logo=bun)  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13%2B-336791?logo=postgresql)  
+
+An intelligent and modern admin dashboard built with **React**, **Tailwind CSS**, and a **Node.js/Express backend**.  
+Designed as a **boilerplate for SaaS and AI-enabled applications**, it comes with **multi-tenancy support, role-based access control, API documentation, and multilingual configuration** out of the box.
+
 
 **Where Design Meets Intelligence — The AI-Enhanced Dashboard Boilerplate.**
 
