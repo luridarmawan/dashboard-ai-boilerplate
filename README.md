@@ -196,5 +196,4 @@ For production deployment, please refer to the following guides:
 
 This dashboard was developed with ❤️ by the [CARIK.id team](https://carik.id).  
 
-_Powered by [Carik](https://carik.id) ⚡_  
-<br/>_Mesin Cerdasnya Indonesia ⚡_
+_Powered by [Carik](https://carik.id) ⚡_  _Mesin Cerdasnya Indonesia ⚡_
