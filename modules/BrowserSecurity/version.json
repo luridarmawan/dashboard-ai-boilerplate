@@ -1,9 +1,0 @@
-{
-  "module": "BrowserSecurity",
-  "name": "BrowserSecurity",
-  "description": "BrowserSecurity is a module that provides security features for the developer console browser.",
-  "version": "3.1.8",
-  "author": "CARIK.id",
-  "url": "https://carik.id",
-  "license": ""
-}
