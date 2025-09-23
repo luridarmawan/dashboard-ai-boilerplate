@@ -53,7 +53,7 @@ router.get('/', async (_req, res) => {
     // get menu from available module
     for (const mod of modules) {
       const modulePath = mod.path;
-      const moduleMenuFile = path.join(MODULES_DIR, modulePath, 'server', 'menu.ts');
+      const moduleMenuFile = path.join(MODULES_DIR, modulePath, 'api', 'menu.ts');
       if (!fs.existsSync(moduleMenuFile)) {
         continue
       }

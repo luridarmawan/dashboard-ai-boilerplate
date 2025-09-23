@@ -15,6 +15,7 @@ import { getConfiguration, getConfigurationAsBoolean, getFormattedDateTime, isJS
 import { constants } from '../../constants';
 import { saveMessage, createStreamingMessage, updateMessage } from '../../services/aiService';
 import { ConversationWithMessages } from '../../types/conversation';
+import { logs } from '../../utils';
 
 interface Message {
   id: string;
@@ -134,9 +135,9 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
           selectedClient?.id || ''
         );
         userMessageId = messageData.id;
-        console.log('User message created:', userMessageId);
+        logs('User message created:', userMessageId);
       } catch (error) {
-        console.error('Error creating user message:', error);
+        // console.error('Error creating user message:', error);
       } if
         (apiStream) {
         // Call the chat API with streaming
@@ -186,9 +187,9 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
             selectedClient?.id
           );
           assistantMessageDbId = messageData.id;
-          console.log('Streaming message created:', assistantMessageDbId);
+          logs('Streaming message created:', assistantMessageDbId);
         } catch (error) {
-          console.error('Error creating streaming message:', error);
+          // console.error('Error creating streaming message:', error);
         }
 
         // Process the stream
@@ -237,10 +238,10 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
                                 completion_tokens: parsed.usage.completion_tokens,
                                 total_tokens: parsed.usage.total_tokens
                               };
-                              console.log('Token usage data from streaming:', usageData);
+                              logs('Token usage data from streaming:', usageData);
                             }
                           } catch (usageError) {
-                            console.error('Error extracting token usage data:', usageError);
+                            // console.error('Error extracting token usage data:', usageError);
                           }
                         }
                         // Update the message in the database with the final content and token usage if available
@@ -254,9 +255,9 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
                           selectedClient?.id || ''
                         );
 
-                        console.log('Final streaming message updated:', assistantMessageDbId);
+                        logs('Final streaming message updated:', assistantMessageDbId);
                       } catch (error) {
-                        console.error('Error updating final streaming message:', error);
+                        // console.error('Error updating final streaming message:', error);
                       }
                     }
                     break;
@@ -281,7 +282,7 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
                       });
                     }
                   } catch (parseError) {
-                    console.error("Error parsing stream data:", parseError);
+                    // console.error("Error parsing stream data:", parseError);
                   }
                 } // if (line.startsWith("data: "))
                 else
@@ -322,7 +323,7 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
 
                               }
                             } catch (error) {
-                              console.error('Error updating streaming message:', error);
+                              // console.error('Error updating streaming message:', error);
                             }
                           }
 
@@ -358,10 +359,10 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
                                   completion_tokens: parsed.usage.completion_tokens,
                                   total_tokens: parsed.usage.total_tokens
                                 };
-                                console.log('Token usage data from streaming:', usageData);
+                                logs('Token usage data from streaming:', usageData);
                               }
                             } catch (usageError) {
-                              console.error('Error extracting token usage data:', usageError);
+                              // console.error('Error extracting token usage data:', usageError);
                             }
                           }
 
@@ -376,9 +377,9 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
                             selectedClient?.id || ''
                           );
 
-                          console.log('Final streaming message updated:', assistantMessageDbId);
+                          logs('Final streaming message updated:', assistantMessageDbId);
                         } catch (error) {
-                          console.error('Error updating final streaming message:', error);
+                          // console.error('Error updating final streaming message:', error);
                         }
                       }
                       break;
@@ -452,8 +453,8 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
             1, // status_id: 1 = Completed
             usageData, // token usage data
           );
-          console.log('Assistant message saved:', messageData.id);
-          console.log('Token usage saved:', usageData);
+          logs('Assistant message saved:', messageData.id);
+          logs('Token usage saved:', usageData);
         } catch (error) {
           console.error('Error saving assistant message:', error);
         }
@@ -496,7 +497,7 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
           apiModel,
           0, // status_id: 0 = Error
         );
-        console.log('Error message saved:', messageData.id);
+        logs('Error message saved:', messageData.id);
       } catch (saveError) {
         console.error('Error saving error message:', saveError);
       }
@@ -656,7 +657,7 @@ export default function ChatInterface({ conversation }: ChatInterfaceProps) {
                       accept=".txt,.docx,.pdf"
                       onChange={(e) => {
                         // Handle file upload
-                        console.log('Files selected:', e.target.files);
+                        logs('Files selected:', e.target.files);
                       }}
                     />
                   </div>
