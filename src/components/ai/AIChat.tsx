@@ -121,11 +121,11 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
           setConversationId(conversation.id);
           // Set the local variable for immediate use since state updates are asynchronous
           currentConversationId = conversation.id;
-          console.log('Conversation created with ID:', conversation.id);
+          logs('Conversation created with ID:', conversation.id);
           userMessageId = message.id;
-          console.log('User message created with ID:', userMessageId);
+          logs('User message created with ID:', userMessageId);
         } catch (error) {
-          console.error('Error creating conversation:', error);
+          // console.error('Error creating conversation:', error);
         }
       } else {
         // If we already have a conversation, just create a new user message
@@ -139,9 +139,9 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
             selectedClient?.id || ''
           );
           userMessageId = messageData.id;
-          console.log('User message created:', userMessageId);
+          logs('User message created:', userMessageId);
         } catch (error) {
-          console.error('Error creating user message:', error);
+          // console.error('Error creating user message:', error);
         }
       }
 
@@ -197,9 +197,9 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
               selectedClient?.id || ''
             );
             assistantMessageDbId = messageData.id;
-            console.log('Streaming message created:', assistantMessageDbId);
+            logs('Streaming message created:', assistantMessageDbId);
           } catch (error) {
-            console.error('Error creating streaming message:', error);
+            // console.error('Error creating streaming message:', error);
           }
         }
 
@@ -255,10 +255,10 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
                                 completion_tokens: parsed.usage.completion_tokens,
                                 total_tokens: parsed.usage.total_tokens
                               };
-                              console.log('Token usage data from streaming:', usageData);
+                              logs('Token usage data from streaming:', usageData);
                             }
                           } catch (usageError) {
-                            console.error('Error extracting token usage data:', usageError);
+                            // console.error('Error extracting token usage data:', usageError);
                           }
                         }
 
@@ -284,7 +284,7 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
 
                         logs('Final streaming message updated:', assistantMessageDbId);
                       } catch (error) {
-                        console.error('Error updating final streaming message:', error);
+                        // console.error('Error updating final streaming message:', error);
                       }
                     }
                     break;
@@ -324,7 +324,7 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
 
                             }
                           } catch (error) {
-                            console.error('Error updating streaming message:', error);
+                            // console.error('Error updating streaming message:', error);
 
                             // Handle errors during streaming
                             try {
@@ -349,12 +349,12 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
                               //   0, // Status: Error
                               //   errorUsageData // Include token usage if available
                               // );
-                              console.log('Error message saved to database');
+                              logs('Error message saved to database');
                               if (errorUsageData) {
-                                console.log('Token usage saved with error:', errorUsageData);
+                                logs('Token usage saved with error:', errorUsageData);
                               }
                             } catch (dbError) {
-                              console.error('Error saving error message to database:', dbError);
+                              // console.error('Error saving error message to database:', dbError);
                             }
                           }
                         }
@@ -363,7 +363,7 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
                       });
                     }
                   } catch (parseError) {
-                    console.error("Error parsing stream data:", parseError);
+                    // console.error("Error parsing stream data:", parseError);
                   }
                 } // if (line.startsWith("data: ")) {
               }
@@ -432,10 +432,10 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
               1, // status_id: 1 = Completed
               usageData, // token usage data
             );
-            console.log('Assistant message saved:', messageData.id);
-            console.log('Token usage saved:', usageData);
+            logs('Assistant message saved:', messageData.id);
+            logs('Token usage saved:', usageData);
           } catch (error) {
-            console.error('Error saving assistant message:', error);
+            // console.error('Error saving assistant message:', error);
           }
         }
         messageCount++;
@@ -450,7 +450,7 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
         }
       }
     } catch (error) {
-      console.error("Error sending message:", error);
+      // console.error("Error sending message:", error);
 
       // Update the assistant message with error content or add a new error message
       setMessages((prev) => {
@@ -486,7 +486,7 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
             completion_tokens: errorObj.usage.completion_tokens,
             total_tokens: errorObj.usage.total_tokens
           };
-          console.log('Token usage extracted from error:', errorUsageData);
+          logs('Token usage extracted from error:', errorUsageData);
         }
       }
 
@@ -506,12 +506,12 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
             0, // status_id: 2 = Error
             errorUsageData, // Include token usage if available
           );
-          console.log('Error message saved:', messageData.id);
+          logs('Error message saved:', messageData.id);
           if (errorUsageData) {
-            console.log('Token usage saved with error message:', errorUsageData);
+            logs('Token usage saved with error message:', errorUsageData);
           }
         } catch (saveError) {
-          console.error('Error saving error message:', saveError);
+          // console.error('Error saving error message:', saveError);
         }
       }
     } finally {

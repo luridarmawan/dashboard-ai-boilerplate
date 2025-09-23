@@ -158,11 +158,11 @@ export default function HomeAI() {
           // Set both local variable and state for persistence
           currentConversationId = conversation.id;
           setConversationId(conversation.id);
-          console.log('Conversation created with ID:', conversation.id);
+          logs('Conversation created with ID:', conversation.id);
           userMessageId = createdMessage.id;
-          console.log('User message created with ID:', userMessageId);
+          logs('User message created with ID:', userMessageId);
         } catch (error) {
-          console.error('Error creating conversation:', error);
+          // console.error('Error creating conversation:', error);
         }
       } else {
         // If we already have a conversation, just create a new user message
@@ -176,9 +176,9 @@ export default function HomeAI() {
             selectedClient?.id || ''
           );
           userMessageId = messageData.id;
-          console.log('User message created:', userMessageId);
+          logs('User message created:', userMessageId);
         } catch (error) {
-          console.error('Error creating user message:', error);
+          // console.error('Error creating user message:', error);
         }
       }
 
@@ -231,9 +231,9 @@ export default function HomeAI() {
               selectedClient?.id
             );
             assistantMessageDbId = messageData.id;
-            console.log('Streaming message created:', assistantMessageDbId);
+            logs('Streaming message created:', assistantMessageDbId);
           } catch (error) {
-            console.error('Error creating streaming message:', error);
+            // console.error('Error creating streaming message:', error);
           }
         }
 
@@ -283,10 +283,10 @@ export default function HomeAI() {
                                 completion_tokens: parsed.usage.completion_tokens,
                                 total_tokens: parsed.usage.total_tokens
                               };
-                              console.log('Token usage data from streaming:', usageData);
+                              logs('Token usage data from streaming:', usageData);
                             }
                           } catch (usageError) {
-                            console.error('Error extracting token usage data:', usageError);
+                            // console.error('Error extracting token usage data:', usageError);
                           }
                         }
 
@@ -310,9 +310,9 @@ export default function HomeAI() {
                           }
                         }
 
-                        console.log('Final streaming message updated:', assistantMessageDbId);
+                        logs('Final streaming message updated:', assistantMessageDbId);
                       } catch (error) {
-                        console.error('Error updating final streaming message:', error);
+                        // console.error('Error updating final streaming message:', error);
                       }
                     }
                     break;
@@ -350,7 +350,7 @@ export default function HomeAI() {
 
                             }
                           } catch (error) {
-                            console.error('Error updating streaming message:', error);
+                            // console.error('Error updating streaming message:', error);
                           }
                         }
 
@@ -398,7 +398,7 @@ export default function HomeAI() {
 
                               }
                             } catch (error) {
-                              console.error('Error updating streaming message:', error);
+                              // console.error('Error updating streaming message:', error);
                             }
                           }
 
@@ -434,10 +434,10 @@ export default function HomeAI() {
                                   completion_tokens: parsed.usage.completion_tokens,
                                   total_tokens: parsed.usage.total_tokens
                                 };
-                                console.log('Token usage data from streaming:', usageData);
+                                logs('Token usage data from streaming:', usageData);
                               }
                             } catch (usageError) {
-                              console.error('Error extracting token usage data:', usageError);
+                              // console.error('Error extracting token usage data:', usageError);
                             }
                           }
 
@@ -461,9 +461,9 @@ export default function HomeAI() {
                             }
                           }
 
-                          console.log('Final streaming message updated:', assistantMessageDbId);
+                          logs('Final streaming message updated:', assistantMessageDbId);
                         } catch (error) {
-                          console.error('Error updating final streaming message:', error);
+                          // console.error('Error updating final streaming message:', error);
                         }
                       }
                       break;
@@ -540,7 +540,7 @@ export default function HomeAI() {
             logs('Assistant message saved:', messageData.id);
             logs('Token usage saved:', usageData);
           } catch (error) {
-            console.error('Error saving assistant message:', error);
+            // console.error('Error saving assistant message:', error);
           }
         }
 
@@ -555,7 +555,7 @@ export default function HomeAI() {
 
       }
     } catch (error) {
-      console.error("Error sending message:", error);
+      // console.error("Error sending message:", error);
 
       // Update the assistant message with error content or add a new error message
       setMessages((prev) => {
@@ -591,7 +591,7 @@ export default function HomeAI() {
             completion_tokens: errorObj.usage.completion_tokens,
             total_tokens: errorObj.usage.total_tokens
           };
-          console.log('Token usage extracted from error:', errorUsageData);
+          logs('Token usage extracted from error:', errorUsageData);
         }
       }
 
@@ -610,12 +610,12 @@ export default function HomeAI() {
             0, // status_id: 0 = Error
             errorUsageData, // Include token usage if available
           );
-          console.log('Error message saved:', messageData.id);
+          logs('Error message saved:', messageData.id);
           if (errorUsageData) {
-            console.log('Token usage saved with error message:', errorUsageData);
+            logs('Token usage saved with error message:', errorUsageData);
           }
         } catch (saveError) {
-          console.error('Error saving error message:', saveError);
+          // console.error('Error saving error message:', saveError);
         }
       }
     } finally {
@@ -751,7 +751,7 @@ export default function HomeAI() {
                             accept=".txt,.docx,.pdf"
                             onChange={(e) => {
                               // Handle file upload
-                              console.log('Files selected:', e.target.files);
+                              logs('Files selected:', e.target.files);
                             }}
                           />
                         </div>

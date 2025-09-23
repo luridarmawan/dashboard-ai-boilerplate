@@ -6,6 +6,7 @@ import { fetchConversation } from "../../services/conversationService";
 import { ConversationWithMessages } from "../../types/conversation";
 import HomeAI from "../Dashboard/HomeAI";
 import ChatInterface from "../../components/Chat/ChatInterface";
+import toast from "react-hot-toast";
 
 export default function ChatPage() {
   const { conversationId } = useParams<{ conversationId: string }>();
@@ -49,7 +50,7 @@ export default function ChatPage() {
       setConversation(conversationData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load conversation');
-      console.error('Error loading conversation:', err);
+      toast.error('Error loading conversation: ' + (err instanceof Error ? err.message : 'Unknown error'));
       
       // If conversation not found, redirect to new chat
       if (err instanceof Error && err.message.includes('not found')) {

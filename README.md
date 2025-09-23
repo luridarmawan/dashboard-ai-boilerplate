@@ -147,8 +147,8 @@ For detailed documentation, see [Email Library Documentation](./docs/email-libra
 ## API Endpoints
 
 Once the API server is running, you can access:  
-- Health check: http://localhost:8088/api/health  
-- Auth endpoints: http://localhost:8088/api/auth/...  
+- Health check: http://localhost:8088/api/health
+- Auth endpoints: http://localhost:8088/api/auth/...
 
 ## Database Management
 
