@@ -2,12 +2,12 @@ import React from 'react';
 import { toast } from 'react-hot-toast';
 import Badge from '../../../components/ui/badge/Badge';
 import { useI18n } from '../../../context/I18nContext';
+import { Link } from 'react-router';
 
 const DevConsoleCheck: React.FC = () => {
   const { t } = useI18n();
 
   const testConsoleLog = () => {
-    console.log('Test Console Log');
     toast.error("PRO mode only.\nDeveloper Console Protection is disabled.");
   }
 
@@ -33,7 +33,7 @@ const DevConsoleCheck: React.FC = () => {
             <div className="mt-2 space-y-1">
               <div>
                 <code className="text-xs bg-blue-200 dark:bg-blue-800 px-2 py-1 rounded">
-                  ENV: {import.meta.env.VITE_APP_DISABLE_DEVELOPER_CONSOLE}
+                  VITE_APP_DISABLE_DEVELOPER_CONSOLE: {import.meta.env.VITE_APP_DISABLE_DEVELOPER_CONSOLE}
                 </code>
               </div>
             </div>
@@ -171,7 +171,13 @@ const DevConsoleCheck: React.FC = () => {
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 text-center text-xs text-gray-500 mb-10">
-        Browser Security
+        <Link to="https://carik.id/browser-security" target='_blank'>
+        <button
+          className="bg-green-600 hover:bg-green-700 text-white font-medium py-4 px-4 rounded-lg transition-colors"
+        >
+          Buy Browser Security Package <sup className="inline-flex items-center mx-1 px-2 py-0.5 rounded-full text-xxs font-semibold bg-red-100 text-red-800 border border-red-200">Pro</sup>
+        </button>
+        </Link>
       </div>
     </div>
   );

@@ -494,7 +494,7 @@ const AppSidebar: React.FC = () => {
           ) : (
             <img
               className="logo"
-              src="/images/logo/logo-icon.png"
+              src={import.meta.env.VITE_APP_ICON || "/images/logo/logo-icon.png"}
               alt="Logo"
               width={32}
               height={32}

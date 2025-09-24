@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useI18n } from './I18nContext';
-// import SecurityManager from '@bs/frontend/utils/securityManager';
+// import SecurityManager from '../../modules/BrowserSecurity/frontend/utils/securityManager';
+import SecurityManager from '@bs/frontend/utils/securityManager';
 
 interface User {
   id: string;
@@ -92,8 +93,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Aktifkan proteksi keamanan setelah token verification berhasil
         setTimeout(async () => {
           try {
-            // const securityManager = SecurityManager.getInstance();
-            // await securityManager.activateAllProtections();
+            const securityManager = SecurityManager.getInstance();
+            await securityManager.activateAllProtections();
           } catch (error) {
             console.error('Failed to activate security protections after token verification:', error);
           }
@@ -166,8 +167,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Aktifkan proteksi keamanan setelah login berhasil
         setTimeout(async () => {
           try {
-            // const securityManager = SecurityManager.getInstance();
-            // await securityManager.activateAllProtections();
+            const securityManager = SecurityManager.getInstance();
+            await securityManager.activateAllProtections();
           } catch (error) {
             console.error('Failed to activate security protections after login:', error);
           }
@@ -217,8 +218,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Aktifkan proteksi keamanan setelah Google login berhasil
         setTimeout(async () => {
           try {
-            // const securityManager = SecurityManager.getInstance();
-            // await securityManager.activateAllProtections();
+            const securityManager = SecurityManager.getInstance();
+            await securityManager.activateAllProtections();
           } catch (error) {
             console.error('Failed to activate security protections after Google login:', error);
           }
@@ -274,8 +275,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Aktifkan proteksi keamanan setelah registrasi berhasil
         setTimeout(async () => {
           try {
-            // const securityManager = SecurityManager.getInstance();
-            // await securityManager.activateAllProtections();
+            const securityManager = SecurityManager.getInstance();
+            await securityManager.activateAllProtections();
           } catch (error) {
             console.error('Failed to activate security protections after registration:', error);
           }
@@ -296,8 +297,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     // Nonaktifkan proteksi keamanan sebelum logout
     try {
-      // const securityManager = SecurityManager.getInstance();
-      // securityManager.deactivateAllProtections();
+      const securityManager = SecurityManager.getInstance();
+      securityManager.deactivateAllProtections();
     } catch (error) {
       console.error('Failed to deactivate security protections during logout:', error);
     }

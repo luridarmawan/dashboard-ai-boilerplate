@@ -42,7 +42,11 @@ import ModulePage from "./pages/Module/ModulePage";
 // TODO: buat menu generator
 import ExampleMain from "../modules/Example/frontend/ExampleMain";
 const ExampleLazyPage = React.lazy(() => import("../modules/Example/frontend/ExampleLazyPage"));
+const ExplorerMain = React.lazy(() => import("../modules/DataStudio/frontend/ExplorerMain"));
+const OCRTesterPage = React.lazy(() => import("../modules/DataStudio/frontend/OCRTesterPage"));
+const ExpensePage = React.lazy(() => import("../modules/Accounting/frontend/ExpensePage"));
 
+import { DevConsoleProtection, ContextMenuProtection, DevConsoleCheck, DevSupport } from "@bs/frontend";
 
 export default function App() {
   return (
@@ -51,8 +55,8 @@ export default function App() {
         <ClientProvider>
           <PermissionProvider>
             <Router>
-
-
+              <DevConsoleProtection>
+                <ContextMenuProtection>
                   <ScrollToTop />
                   <Routes>
                     {/* Dashboard Layout - Protected Routes */}
@@ -128,6 +132,36 @@ export default function App() {
                         </Suspense>
                       } />
 
+                      {/* === Data Studio === */}
+                      {/* Explorer Page with Lazy Load */}
+                      <Route path="/explorer" element={
+                        <Suspense fallback={<div className="flex items-center justify-center h-64">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        </div>}>
+                          <ExplorerMain />
+                        </Suspense>
+                      } />
+                      <Route path="/ocr-tester" element={
+                        <Suspense fallback={<div className="flex items-center justify-center h-64">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        </div>}>
+                          <OCRTesterPage />
+                        </Suspense>
+                      } />
+                      {/* === /Data Studio === */}
+
+                      <Route path="/expense" element={
+                        <Suspense fallback={<div className="flex items-center justify-center h-64">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        </div>}>
+                          <ExpensePage />
+                        </Suspense>
+                      } />
+
+                      {/* Developer Console Protection Route */}
+                      <Route path="/dev-console-check" element={<DevConsoleCheck />} />
+                      <Route path="/dev-support" element={<DevSupport />} />
+
                       {/* Forms */}
                       <Route path="/form-elements" element={<FormElements />} />
 
@@ -171,8 +205,8 @@ export default function App() {
                     {/* Fallback Route */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
-
-
+                </ContextMenuProtection>
+              </DevConsoleProtection>
             </Router>
           </PermissionProvider>
         </ClientProvider>
