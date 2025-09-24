@@ -42,9 +42,13 @@ import ModulePage from "./pages/Module/ModulePage";
 // TODO: buat menu generator
 import ExampleMain from "../modules/Example/frontend/ExampleMain";
 const ExampleLazyPage = React.lazy(() => import("../modules/Example/frontend/ExampleLazyPage"));
+
+// YOUR MODULE //
+// Place your module here
 const ExplorerMain = React.lazy(() => import("../modules/DataStudio/frontend/ExplorerMain"));
 const OCRTesterPage = React.lazy(() => import("../modules/DataStudio/frontend/OCRTesterPage"));
 const ExpensePage = React.lazy(() => import("../modules/Accounting/frontend/ExpensePage"));
+// /YOUR MODULE //
 
 import { DevConsoleProtection, ContextMenuProtection, DevConsoleCheck, DevSupport } from "@bs/frontend";
 
@@ -132,6 +136,9 @@ export default function App() {
                         </Suspense>
                       } />
 
+
+                      {/* === YOUR MODULE === */}
+
                       {/* === Data Studio === */}
                       {/* Explorer Page with Lazy Load */}
                       <Route path="/explorer" element={
@@ -157,6 +164,8 @@ export default function App() {
                           <ExpensePage />
                         </Suspense>
                       } />
+
+                      {/* === /YOUR MODULE === */}
 
                       {/* Developer Console Protection Route */}
                       <Route path="/dev-console-check" element={<DevConsoleCheck />} />
