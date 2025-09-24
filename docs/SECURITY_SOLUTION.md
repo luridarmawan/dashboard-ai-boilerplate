@@ -71,7 +71,7 @@ const configData = await configResponse.json();
 ### 4. Testing
 
 To test the new endpoint:
-1. Ensure the server is running (`npm run server:dev`)
+1. Ensure the server is running (`npm run api:dev`)
 2. Use a valid authentication token
 3. Make a GET request to `/api/configuration/key/{key}` where `{key}` is the configuration key you want to retrieve
 

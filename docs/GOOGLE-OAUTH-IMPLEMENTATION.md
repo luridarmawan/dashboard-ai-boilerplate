@@ -47,7 +47,7 @@ VITE_GOOGLE_CLIENT_ID=your_actual_google_client_id.apps.googleusercontent.com
 ### 3. Jalankan Aplikasi
 ```bash
 # Terminal 1: Server
-npm run server:dev
+npm run api:dev
 
 # Terminal 2: Frontend  
 npm run dev

@@ -62,7 +62,7 @@ VITE_GOOGLE_CLIENT_ID=your_google_client_id_here.apps.googleusercontent.com
 
 ```bash
 # Terminal 1: Jalankan server
-npm run server:dev
+npm run api:dev
 
 # Terminal 2: Jalankan frontend
 npm run dev

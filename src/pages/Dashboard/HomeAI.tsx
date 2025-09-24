@@ -364,6 +364,8 @@ export default function HomeAI() {
                 } // if (line.startsWith("data: "))
                 else 
                 {
+
+
                   // n8n streaming
                   try {
                     const parsed = JSON.parse(line);
@@ -470,10 +472,11 @@ export default function HomeAI() {
 
                     }
 
-
                   } catch (error) {
                     // console.error('Error parsing stream data:', error);
                   }
+                  // /n8n streaming
+
                 }
               }
             }
