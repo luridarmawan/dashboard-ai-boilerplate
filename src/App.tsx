@@ -43,12 +43,7 @@ import ModulePage from "./pages/Module/ModulePage";
 import ExampleMain from "../modules/Example/frontend/ExampleMain";
 const ExampleLazyPage = React.lazy(() => import("../modules/Example/frontend/ExampleLazyPage"));
 
-// YOUR MODULE //
-// Place your module here
-const ExplorerMain = React.lazy(() => import("../modules/DataStudio/frontend/ExplorerMain"));
-const OCRTesterPage = React.lazy(() => import("../modules/DataStudio/frontend/OCRTesterPage"));
-const ExpensePage = React.lazy(() => import("../modules/Accounting/frontend/ExpensePage"));
-// /YOUR MODULE //
+// PLACE YOUR MODULE HERE
 
 import { DevConsoleProtection, ContextMenuProtection, DevConsoleCheck, DevSupport } from "@bs/frontend";
 
@@ -137,35 +132,7 @@ export default function App() {
                       } />
 
 
-                      {/* === YOUR MODULE === */}
-
-                      {/* === Data Studio === */}
-                      {/* Explorer Page with Lazy Load */}
-                      <Route path="/explorer" element={
-                        <Suspense fallback={<div className="flex items-center justify-center h-64">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                        </div>}>
-                          <ExplorerMain />
-                        </Suspense>
-                      } />
-                      <Route path="/ocr-tester" element={
-                        <Suspense fallback={<div className="flex items-center justify-center h-64">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                        </div>}>
-                          <OCRTesterPage />
-                        </Suspense>
-                      } />
-                      {/* === /Data Studio === */}
-
-                      <Route path="/expense" element={
-                        <Suspense fallback={<div className="flex items-center justify-center h-64">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                        </div>}>
-                          <ExpensePage />
-                        </Suspense>
-                      } />
-
-                      {/* === /YOUR MODULE === */}
+                      {/*  PLACE YOUR MODULE HERE */}
 
                       {/* Developer Console Protection Route */}
                       <Route path="/dev-console-check" element={<DevConsoleCheck />} />
