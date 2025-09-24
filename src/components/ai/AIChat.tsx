@@ -366,6 +366,121 @@ const AIChat = ({ id, initialMessages }: AIProps) => {
                     // console.error("Error parsing stream data:", parseError);
                   }
                 } // if (line.startsWith("data: ")) {
+                else
+                {
+                  // n8n streaming
+                  try {
+                    const parsed = JSON.parse(line);
+                    if (parsed.type === 'item') {
+                      const content = parsed.content;
+
+                      if (content) {
+                        fullMessage += content;
+                        // Update the assistant message with new content
+                        setMessages((prev) => {
+                          // Immediately update the message with new content for real-time display
+                          const updatedMessages = prev.map((msg) =>
+                            msg.id === assistantMessageId
+                              ? { ...msg, content: msg.content + content }
+                              : msg
+                          );
+
+                          // Update the assistant message in the database
+                          if (assistantMessageDbId) {
+                            try {
+                              // Use a debounced update to avoid too many requests
+                              if (Math.random() < 0.1) { // Only update ~10% of the time to reduce API calls
+                                // Try to extract token usage data if available in the current chunk
+                                try {
+                                  if (parsed && parsed.usage) {
+                                    // Token usage data available but not used during streaming
+                                    // Could be used for real-time usage tracking if needed
+                                  }
+                                } catch (usageError) {
+                                  // Ignore errors in extracting usage data during streaming
+                                }
+
+                              }
+                            } catch (error) {
+                              // console.error('Error updating streaming message:', error);
+                            }
+                          }
+
+                          return updatedMessages;
+                        });
+                      }
+
+
+                    }
+                    if (parsed.type === 'end') {
+
+                      // Stream is complete
+                      done = true;
+
+                      // Update the final assistant message in the database
+                      const effectiveConversationId = currentConversationId || conversationId;
+                      if (assistantMessageDbId && effectiveConversationId) {
+                        try {
+                          // Get the final content of the assistant message from the current state
+                          setMessages(prev => {
+                            const assistantMsg = prev.find(msg => msg.id === assistantMessageId);
+                            fullMessage = assistantMsg?.content || '';
+                            return prev; // No changes to state, just reading the current value
+                          });
+
+                          // Try to extract token usage data if available
+                          let usageData;
+                          if (isJSON(line)) {
+                            try {
+                              const parsed = JSON.parse(line);
+                              if (parsed && parsed?.usage) {
+                                usageData = {
+                                  prompt_tokens: parsed.usage.prompt_tokens,
+                                  completion_tokens: parsed.usage.completion_tokens,
+                                  total_tokens: parsed.usage.total_tokens
+                                };
+                                logs('Token usage data from streaming:', usageData);
+                              }
+                            } catch (usageError) {
+                              // console.error('Error extracting token usage data:', usageError);
+                            }
+                          }
+
+                          // Update the message in the database with the final content and token usage if available
+                          await updateMessage(
+                            assistantMessageDbId,
+                            fullMessage,
+                            apiToken || '',
+                            undefined, // No error message
+                            0, // Status: Completed
+                            usageData, // Token usage data
+                            selectedClient?.id || ''
+                          );
+                          messageCount++;
+                          if (messageCount === 1) {
+                            const conversationMessage = `user: ${userMessage.content}\nassistant: ${fullMessage}`
+
+                            // Update topic using the service
+                            if (currentConversationId) {
+                              updateTopic(currentConversationId, conversationMessage, apiToken || '', selectedClient?.id || '', apiStream);
+                            }
+                          }
+
+                          logs('Final streaming message updated:', assistantMessageDbId);
+                        } catch (error) {
+                          // console.error('Error updating final streaming message:', error);
+                        }
+                      }
+                      break;
+
+                    }
+
+
+                  } catch (error) {
+                    // console.error('Error parsing stream data:', error);
+                  }
+                  // /n8n streaming
+                }
               }
             }
           } // /while (!done) {
