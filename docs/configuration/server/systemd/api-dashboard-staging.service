@@ -48,7 +48,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=/home/[yourusername]/app/dashboard-boilerplate
-ExecStart=/home/[yourusername]/.nvm/versions/node/v22.16.0/bin/npm run server:dev
+ExecStart=/home/[yourusername]/.nvm/versions/node/v22.16.0/bin/npm run api:dev
 Environment=PORT=8082
 Environment=PATH=/home/[yourusername]/app/dashboard-boilerplate/node_modules/.bin:/home/[yourusername]/.nvm/versions/node/v22.16.0/bin/:/usr/local/bin:/usr/bin:/bin
 
