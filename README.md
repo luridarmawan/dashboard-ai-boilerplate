@@ -221,6 +221,19 @@ For production deployment, please refer to the following guides:
 
 ---
 
+## PRO VERSION
+
+### Browser Security Module
+
+⚠️ If Protection is Active:
+
+- Press F12 → Will be blocked or redirected to /dev-support
+- Press Ctrl+Shift+I → Will be blocked
+- Right-click → Context menu will be disabled
+- console.log() → Method will be disabled
+
+
+
 This dashboard was developed with ❤️ by the [CARIK.id team](https://carik.id).  
 
 _Powered by [Carik](https://carik.id) ⚡_  _Mesin Cerdasnya Indonesia ⚡_
