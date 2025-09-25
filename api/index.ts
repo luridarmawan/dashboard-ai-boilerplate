@@ -22,6 +22,7 @@ import versionRoutes from './routes/version';
 import { initializeDatabase } from './database/init';
 import { csrfMiddleware, generateCSRFTokenMiddleware, mcpCSRFMiddleware } from './middleware/csrf';
 import { userActivityMiddleware } from './middleware/userActivity';
+import { securityMiddlewares } from './middleware/security';
 import { getOpenAPISpec } from './utils/swagger';
 import { getBaseUrl } from './utils/string';
 import logs from './utils/logs';
@@ -34,50 +35,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MODULES_DIR = path.join(__dirname, '..', process.env.VITE_MODULES_DIR || '');
 
 // Middleware
-const corsOptions = {
-  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-
-    // List of allowed origins
-    const allowedOrigins = [
-      getBaseUrl(process.env.VITE_APP_URL || ''), // Development URL
-      getBaseUrl(process.env.VITE_API_URL || ''), // Development URL
-      process.env.VITE_APP_URL,
-      `http://localhost:${process.env.VITE_PREVIEW_PORT}`,
-      `http://localhost:${process.env.VITE_APP_PORT}`,
-      `http://localhost:${process.env.VITE_API_PORT}`,
-      `http://127.0.0.1:${process.env.VITE_PREVIEW_PORT}`,
-      `http://127.0.0.1:${process.env.VITE_APP_PORT}`,
-      `http://127.0.0.1:${process.env.VITE_API_PORT}`,
-      // Add more origins as needed for different environments
-    ];
-
-    // Allow all localhost origins for development
-    if (origin && (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:'))) {
-      return callback(null, true);
-    }
-
-    // Check if the origin is in our allowed list
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      if (process.env.VITE_APP_DEBUG) {
-        console.warn(`CORS blocked origin: ${origin}`);
-        // callback(new Error('Not allowed by CORS'));
-      }
-      // Create a clean error without stack trace
-      const error = new Error('Not allowed by CORS');
-      error.stack = undefined;
-      callback(error);
-    }
-  },
-  credentials: true
-};
-
-app.use(cors(corsOptions));
-app.use(express.json({ limit: process.env.VITE_MAX_UPLOAD_SIZE || '50mb' })); // Increased limit for file uploads
-app.use(express.urlencoded({ extended: true, limit: process.env.VITE_MAX_UPLOAD_SIZE || '50mb' })); // For URL-encoded payloads
+// Apply security middlewares (helmet, cors, hpp, rate limiting, upload size)
+securityMiddlewares.forEach(middleware => app.use(middleware));
 app.use(userActivityMiddleware);
 
 // Routes with specific middleware

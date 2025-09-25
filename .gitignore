@@ -24,6 +24,7 @@ dist-ssr
 *.sln
 *.sw?
 *.lock
+storage/uploads/*
 
 # Ignore all migration folders that contain "mod" in their name
 prisma/migrations/*_[Mm][Oo][Dd]_*/
@@ -32,4 +33,3 @@ prisma/migrations/*_[Mm][Oo][Dd]_*/
 prisma/generated-schema.prisma
 data/install_only/users.json
 prisma/schema/mod_*.prisma
-
