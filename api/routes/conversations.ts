@@ -1,8 +1,10 @@
 import { Router } from 'express';
+import { z } from "zod";
 import { PrismaClient } from '@prisma/client';
 import { authenticateToken } from '../middleware/auth';
 import { permissionClientCheck } from '../middleware/clientCheck';
 import { generateUUIDv7 } from '../utils/uuid';
+import { validateQuery, validateBody, validateParams } from '../middleware/validate';
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -10,6 +12,20 @@ const router = Router();
 // Apply authentication middleware to all routes in this router
 router.use(authenticateToken);
 router.use(permissionClientCheck);
+
+// Schema for path parameter validation (UUID format)
+const pathSchema = z.object({
+  id: z.string().uuid('Invalid conversation ID format'),
+});
+
+// Schema for PUT request body validation
+const updateConversationSchema = z.object({
+  title: z.string().min(1, 'Title cannot be empty').optional(),
+  is_archived: z.boolean().optional(),
+}).refine(data => data.title !== undefined || data.is_archived !== undefined, {
+  message: 'At least one field (title or is_archived) must be provided',
+  path: ['title', 'is_archived']
+});
 
 /**
  * @swagger
@@ -362,7 +378,7 @@ router.get('/', async (req, res) => {
  *       404:
  *         description: Conversation not found
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateParams(pathSchema), async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user?.id;
@@ -490,7 +506,7 @@ router.get('/:id', async (req, res) => {
  *       404:
  *         description: Conversation not found
  */
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateParams(pathSchema), validateBody(updateConversationSchema), async (req, res) => {
   try {
     const { id } = req.params;
     const { title, is_archived } = req.body;
@@ -601,7 +617,7 @@ router.put('/:id', async (req, res) => {
  *       404:
  *         description: Conversation not found
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateParams(pathSchema), async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user?.id;
