@@ -1,0 +1,16 @@
+name = "dashboard-ai"
+pages_build_output_dir="dist"
+
+# Environment-specific configurations
+[env.production]
+pages_build_output_dir = "dist"
+
+[env.preview]
+pages_build_output_dir = "dist"
+
+# Custom domain (uncomment and configure after setting up in Cloudflare dashboard)
+# [[env.production.aliases]]
+# domain = "your-custom-domain.com"
+#
+# [[env.preview.aliases]]
+# domain = "preview.your-custom-domain.com"

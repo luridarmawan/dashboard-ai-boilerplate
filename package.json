@@ -1,5 +1,5 @@
 {
-  "name": "tailadmin-react",
+  "name": "dashboard-ai",
   "private": true,
   "version": "2.0.2",
   "type": "module",
@@ -56,7 +56,13 @@
     "test:context-menu": "vitest run test/contextMenuProtection.test.ts",
     "test:context-menu:watch": "vitest --watch test/contextMenuProtection.test.ts",
     "test:security": "vitest run test/devConsoleProtection.test.ts test/contextMenuProtection.test.ts",
-    "postinstall": "node scripts/postinstall.js"
+    "postinstall": "node scripts/postinstall.js",
+    "deploy": "bun run build && wrangler pages deploy dist",
+    "deploy:production": "bun run build && wrangler pages deploy dist --env production",
+    "deploy:preview": "bun run build && wrangler pages deploy dist --env preview",
+    "dev:wrangler": "wrangler pages dev dist --port 8085",
+    "dev:wrangler:production": "wrangler pages dev dist --port 8085 --env production",
+    "dev:wrangler:preview": "wrangler pages dev dist --port 8086 --env preview"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.15",
@@ -138,6 +144,7 @@
     "vite": "^6.1.0",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-svgr": "^4.3.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "wrangler": "^4.40.0"
   }
 }
