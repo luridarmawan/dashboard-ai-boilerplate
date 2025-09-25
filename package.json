@@ -7,7 +7,7 @@
     "db:init": "tsx scripts/cleanup.ts && node scripts/generate-schema.js && node scripts/generate-migration.js && prisma migrate reset --force && prisma generate && tsx api/database/seed.ts",
     "dev": "vite",
     "api:dev": "tsx --watch api/index.ts",
-    "build": "tsc -b && vite build && tsx scripts/generate-openapijson.ts",
+    "build": "tsc -b && vite build && tsx scripts/generate-openapijson.ts && tsx scripts/build.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "api": "tsx api/index.ts",
