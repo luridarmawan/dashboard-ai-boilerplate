@@ -17,6 +17,7 @@ import { getConfiguration, getConfigurationAsBoolean, getFormattedDateTime, isJS
 import { constants } from '../../constants';
 import { createConversation, saveMessage, createStreamingMessage, updateMessage } from '../../services/aiService';
 import { updateTopic } from '../../services/conversationService';
+import { xfetch } from '../../services/xfetch';
 import { logs } from '../../utils';
 
 interface Message {
@@ -184,12 +185,8 @@ export default function HomeAI() {
 
       if (apiStream) {
         // Call the chat API with streaming
-        const response = await fetch(apiUrl, {
+        const response = await xfetch(apiUrl, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiToken}`
-          },
           body: JSON.stringify({
             model: apiModel,
             messages: [

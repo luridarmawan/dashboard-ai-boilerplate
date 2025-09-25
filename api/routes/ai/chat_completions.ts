@@ -83,6 +83,7 @@ router.post('/chat/completions', requirePermission('ai', PermissionAction.CREATE
   try {
     // Get client ID from the authenticated user
     const clientId = (req.user as any).clientId || null;
+    const sessionId = req.headers['x-session-id'];
     const tenantInfo = await getTenant(clientId);
     let tenantName = tenantInfo?.name || 'default';
     tenantName = tenantName || 'global';
@@ -145,6 +146,7 @@ router.post('/chat/completions', requirePermission('ai', PermissionAction.CREATE
     // Create an instance with the base URL and default headers
     const aiClient = new AIFetch(AIAPIURL, {
       'Content-Type': 'application/json',
+      'x-session-id': sessionId,
       'Authorization': `Bearer ${AIAPIKey}`
     });
 
