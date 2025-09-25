@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { z } from "zod";
 import { PrismaClient } from '@prisma/client';
 import { authenticateToken } from '../middleware/auth';
 import { permissionMiddleware, requirePermission, PermissionAction } from '../middleware/permission';
@@ -7,6 +8,7 @@ import { generateUUIDv7 } from '../utils/uuid';
 import { getPermission } from '../utils/permission'
 import emailService from '../../src/lib/email/email';
 import { getUserGroupsAndPermissions } from '../services/userService';
+import { validateQuery, validateBody, validateParams } from '../middleware/validate';
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -15,6 +17,37 @@ const router = Router();
 router.use(authenticateToken);
 router.use(permissionMiddleware);
 router.use(permissionClientCheck);
+
+// Schema for path parameter validation (UUID format)
+const userPathSchema = z.object({
+  id: z.string().uuid('Invalid user ID format'),
+});
+
+// Schema for user creation body validation
+const createUserSchema = z.object({
+  email: z.string().email('Invalid email format'),
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  phone: z.string().min(1, 'Phone is required'),
+  alias: z.string().optional(),
+  description: z.string().optional(),
+  send_email: z.boolean().optional(),
+});
+
+// Schema for user update body validation
+const updateUserSchema = z.object({
+  firstName: z.string().min(1, 'First name cannot be empty').optional(),
+  lastName: z.string().min(1, 'Last name cannot be empty').optional(),
+  phone: z.string().min(1, 'Phone cannot be empty').optional(),
+  alias: z.string().optional(),
+  description: z.string().optional(),
+  statusId: z.number().int().min(0).max(1).optional(),
+}).refine(data => data.firstName !== undefined || data.lastName !== undefined ||
+                data.phone !== undefined || data.alias !== undefined ||
+                data.description !== undefined || data.statusId !== undefined, {
+  message: 'At least one field must be provided for update',
+  path: ['firstName', 'lastName', 'phone', 'alias', 'description', 'statusId']
+});
 
 /**
  * @swagger
@@ -372,7 +405,7 @@ router.get('/scope', async (req, res) => {
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.get('/:id', requirePermission('user', PermissionAction.READ), async (req, res) => {
+router.get('/:id', validateParams(userPathSchema), requirePermission('user', PermissionAction.READ), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -500,7 +533,7 @@ router.get('/:id', requirePermission('user', PermissionAction.READ), async (req,
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.post('/', requirePermission('user', PermissionAction.CREATE), async (req, res) => {
+router.post('/', validateBody(createUserSchema), requirePermission('user', PermissionAction.CREATE), async (req, res) => {
   try {
     const clientId = req.headers['x-client-id'] as string;
     const { email, firstName, lastName, phone, alias, description, send_email } = req.body;
@@ -622,7 +655,7 @@ router.post('/', requirePermission('user', PermissionAction.CREATE), async (req,
 });
 
 // PUT /api/user/:id - Update user (requires edit permission on user resource)
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateParams(userPathSchema), validateBody(updateUserSchema), async (req, res) => {
   try {
     const { id } = req.params;
     const { firstName, lastName, phone, alias, description, statusId } = req.body;
@@ -700,7 +733,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE /api/user/:id - Delete user (requires manage permission on user resource)
-router.delete('/:id', requirePermission('user', PermissionAction.MANAGE), async (req, res) => {
+router.delete('/:id', validateParams(userPathSchema), requirePermission('user', PermissionAction.MANAGE), async (req, res) => {
   try {
     const { id } = req.params;
 
