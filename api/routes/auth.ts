@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { generateUUIDv7 } from '../utils/uuid';
+import { generateUUIDv7, isValidUUIDv7 } from '../utils/uuid';
 import { prisma } from '../database/init';
 import { generateCSRFToken, storeCSRFToken } from '../middleware/csrf';
 import emailService from '../services/email/emailService';
@@ -697,10 +697,10 @@ router.get('/verify-email', async (req, res) => {
     const { token } = req.query;
 
     // Validate input
-    if (!token || typeof token !== 'string') {
+    if (!token || typeof token !== 'string' || !isValidUUIDv7(token)) {
       return res.status(400).json({
         success: false,
-        message: 'Verification token is required'
+        message: 'Valid verification token is required'
       });
     }
 

@@ -49,6 +49,7 @@
     "submit": "Submit",
     "save": "Save",
     "fetchError": "Failed to fetch data",
+    "close": "Close",
     "cancel": "Cancel",
     "loading": "Loading...",
     "saveSuccess": "Save successful",
