@@ -195,8 +195,8 @@ class EmailService {
 
       return result;
     } catch (error) {
-      console.error('Error sending email:', error);
-      throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('❗️ Error sending email:', error?.code, error?.response);
+      // throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -298,7 +298,7 @@ class EmailService {
       }, options);
     } catch (error) {
       console.error('Error sending template email:', error);
-      throw new Error(`Failed to send template email: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      // throw new Error(`Failed to send template email: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 

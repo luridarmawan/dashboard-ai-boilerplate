@@ -6,7 +6,7 @@ import { permissionMiddleware, requirePermission, PermissionAction } from '../mi
 import { permissionClientCheck } from '../middleware/clientCheck';
 import { generateUUIDv7 } from '../utils/uuid';
 import { getPermission } from '../utils/permission'
-import emailService from '../../src/lib/email/email';
+import emailService from '../services/email/emailService';
 import { getUserGroupsAndPermissions } from '../services/userService';
 import { validateQuery, validateBody, validateParams } from '../middleware/validate';
 

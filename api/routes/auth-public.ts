@@ -1,8 +1,8 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import emailService from '../services/email/emailService';
 import { generateUUIDv7 } from '../utils/uuid';
 import { prisma } from '../database/init';
-import emailService from '../../src/lib/email/email';
 
 const router = express.Router();
 

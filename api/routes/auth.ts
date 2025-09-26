@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { generateUUIDv7 } from '../utils/uuid';
 import { prisma } from '../database/init';
 import { generateCSRFToken, storeCSRFToken } from '../middleware/csrf';
-import emailService from '../../src/lib/email/email';
+import emailService from '../services/email/emailService';
 import { loginLimiter } from '../middleware/security';
 
 const router = express.Router();
@@ -189,7 +189,15 @@ router.post('/register', async (req, res) => {
   const userId = generateUUIDv7();
 
   // Generate client ID
-  const clientId = generateUUIDv7();
+  const defaultClient = await prisma.clients.findFirst({
+    where: {
+      status_id: 0
+    },
+    orderBy: {
+      id: 'asc'
+    }
+  });
+  const clientId = defaultClient?.id;
 
   // Generate verification token
   const verificationToken = generateUUIDv7();
