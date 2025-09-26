@@ -57,7 +57,7 @@
     "test:context-menu:watch": "vitest --watch test/contextMenuProtection.test.ts",
     "test:security": "vitest run test/devConsoleProtection.test.ts test/contextMenuProtection.test.ts",
     "postinstall": "node scripts/postinstall.js",
-    "deploy": "bun run build && wrangler pages deploy dist",
+    "deploy": "wrangler logout && wrangler login && bun run build && wrangler pages deploy dist",
     "deploy:production": "bun run build && wrangler pages deploy dist --env production",
     "deploy:preview": "bun run build && wrangler pages deploy dist --env preview",
     "dev:wrangler": "wrangler pages dev dist --port 8085",
