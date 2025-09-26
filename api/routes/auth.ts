@@ -5,6 +5,7 @@ import { generateUUIDv7 } from '../utils/uuid';
 import { prisma } from '../database/init';
 import { generateCSRFToken, storeCSRFToken } from '../middleware/csrf';
 import emailService from '../../src/lib/email/email';
+import { loginLimiter } from '../middleware/security';
 
 const router = express.Router();
 
@@ -324,7 +325,7 @@ router.post('/register', async (req, res) => {
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter,  async (req, res) => {
   try {
     const { email, password, lat, lon } = req.body;
 

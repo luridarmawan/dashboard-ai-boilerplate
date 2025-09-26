@@ -7,11 +7,12 @@
  * @returns {Promise<{csrfToken: string, sessionId: string}>} The CSRF token and session ID
  * @throws {Error} If the CSRF token could not be fetched
  */
-export const getCSRF = async (): Promise<{csrfToken: string, sessionId: string}> => {
+export const getCSRF = async (headers: Record<string, string> = {}): Promise<{csrfToken: string, sessionId: string}> => {
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8082/api';
+  // console.log('00----', headers)
   
   try {
-    const csrfResponse = await fetch(`${API_BASE_URL}/auth/csrf-token`);
+    const csrfResponse = await fetch(`${API_BASE_URL}/auth/csrf-token`,{headers: headers});
     const csrfData = await csrfResponse.json();
 
     if (csrfData.success && csrfData.data.csrfToken && csrfData.data.sessionId) {
