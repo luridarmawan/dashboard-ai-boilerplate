@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import ComponentCard from "../common/ComponentCard";
 import toast from "react-hot-toast";
 import { Configuration } from "../../types/configuration";
 import { useConfiguration } from "../../hooks/useConfiguration";
