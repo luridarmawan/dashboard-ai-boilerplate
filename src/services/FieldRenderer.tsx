@@ -74,6 +74,7 @@
  */
 import React from "react";
 import Label from "../components/form/Label";
+import Select from "../components/form/Select";
 import Input from "../components/form/input/InputField";
 import TextareaAutosize from "react-textarea-autosize";
 import ControlledSwitch from "../components/form/switch/ControlledSwitch";
@@ -131,6 +132,44 @@ export class FieldRenderer {
           )}
         </div>
       );
+    }
+
+    if (config.type.startsWith("option:")) {
+      const match = config.type.match(/^option:\s*\[(.*)\]$/i);
+      if (!match) {
+        return (
+          <>
+            Invalid option format for: {config.key}
+          </>
+        );
+      };
+
+      const optionList = match[1]
+        .split(",")
+        .map(opt => opt.trim().replace(/^['"]|['"]$/g, ""));
+      // konversi ke format options
+      const options = optionList.map((text, index) => ({
+        value: String(index),
+        label: text,
+      }));
+
+      return (
+        <div key={config.key} className="mt-3">
+          <Label htmlFor={config.key}>{config.title || config.key}{proClass}</Label>
+          <Select
+            options={options}
+            placeholder="Select Option"
+            className="dark:bg-dark-900"
+            value={value || ""}
+            onChange={(newValue) => onChange(config.key, newValue)}
+          />
+
+          {config.note && (
+            <MarkdownDiv markdown={config.note} className="ml-5 text-xs text-gray-500 break-words" />
+          )}
+        </div>
+      )
+
     }
 
     if (config.type === "secret") {
