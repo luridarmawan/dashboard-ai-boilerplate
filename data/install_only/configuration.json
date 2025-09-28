@@ -10,44 +10,6 @@
     "status_id": 0
   },
   {
-    "section": "general",
-    "key": "api.rate_limit.default",
-    "value": "120",
-    "title": "Default rate limit per minute for API requests",
-    "pro": true,
-    "status_id": 0
-  },
-  {
-    "section": "general",
-    "key": "security.jwt.expiry",
-    "value": "7d",
-    "title": "JWT token expiry duration",
-    "status_id": 0
-  },
-  {
-    "section": "general",
-    "key": "security.password.min_length",
-    "value": "8",
-    "title": "Minimum password length requirement",
-    "status_id": 0
-  },
-  {
-    "section": "general",
-    "key": "logging.level",
-    "value": "info",
-    "title": "Application logging level (debug, info, warn, error)",
-    "status_id": 0
-  },
-  {
-    "section": "general",
-    "key": "features.audit.enabled",
-    "value": "true",
-    "type": "boolean",
-    "title": "Enable audit log trail",
-    "pro": true,
-    "status_id": 0
-  },
-  {
     "section": "ai",
     "key": "ai.enable",
     "value": "true",
@@ -114,6 +76,7 @@
   },
   {
     "section": "Advanced",
+    "sub": "Security",
     "key": "developer.console.protection",
     "value": "false",
     "type": "boolean",
@@ -125,13 +88,56 @@
   },
   {
     "section": "Advanced",
+    "sub": "Security",
+    "key": "browser.selection.protection",
+    "value": "false",
+    "type": "boolean",
+    "title": "Enable browser selection protection",
+    "public": true,
+    "order": 3,
+    "pro": true,
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "sub": "Security",
     "key": "context.menu.protection",
     "value": "false",
     "type": "boolean",
     "title": "Enable context menu protection",
     "public": true,
     "pro": true,
-    "order": 3,
+    "order": 4,
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "security.jwt.expiry",
+    "value": "7d",
+    "title": "JWT token expiry duration",
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "security.password.min_length",
+    "value": "8",
+    "title": "Minimum password length requirement",
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "logging.level",
+    "value": "info",
+    "title": "Application logging level (debug, info, warn, error)",
+    "status_id": 0
+  },
+  {
+    "section": "Advanced",
+    "key": "features.audit.enabled",
+    "value": "true",
+    "type": "boolean",
+    "title": "Enable audit log trail",
+    "pro": true,
     "status_id": 0
   },
   {
