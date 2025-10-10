@@ -10,12 +10,13 @@ Designed as a **boilerplate for SaaS and AI-enabled applications**, it comes wit
 
 ## ✨ Features
 
-- ⚡ **AI Enabler** – ready to integrate artificial intelligence.  
-- 🏢 **SaaS Ready (Multi-Tenancy)** – supports multi-tenant architecture for SaaS applications.  
-- 🌍 **Multi Language Support** – built-in multilingual support.  
-- 📖 **Interactive API Documentation** – comprehensive and interactive API documentation.  
-- 🚀 **Optimized Loading Performance** – faster performance with chunking build optimization.  
-- 🔒 **Role-Based Access Control (RBAC)** – fine-grained access control by roles.  
+- ⚡ **AI Enabler** – ready to integrate artificial intelligence.
+- 🏢 **SaaS Ready (Multi-Tenancy)** – supports multi-tenant architecture for SaaS applications.
+- 🌍 **Multi Language Support** – built-in multilingual support.
+- 📖 **Interactive API Documentation** – comprehensive and interactive API documentation.
+- 🚀 **Optimized Loading Performance** – faster performance with chunking build optimization.
+- 🔒 **Role-Based Access Control (RBAC)** – fine-grained access control by roles.
+- 🔧 **[Module Generator](docs/MODULE-GENERATOR.md)** – easily generate new modules with a single command.
 - **MCP (Model Context Protocol) Ready** – fully compatible with MCP protocol for model integration.  
 - **CSRF Protection** – enhanced security with CSRF protection.  
 - **Chat AI** – supports both streaming and post modes.  
