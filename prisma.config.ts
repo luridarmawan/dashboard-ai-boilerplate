@@ -1,7 +1,7 @@
 // prisma.config.ts
 import path from "node:path";
 import "dotenv/config";              // <-- .env TIDAK otomatis diload tanpa ini
-import { defineConfig } from "prisma/config";
+import { defineConfig } from "@prisma/config";
 
 export default defineConfig({
   // arahkan ke file schema kamu saat ini

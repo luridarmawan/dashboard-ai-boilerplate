@@ -1,10 +1,11 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { generateUUIDv7 } from '../utils/uuid';
+import { generateUUIDv7, isValidUUIDv7 } from '../utils/uuid';
 import { prisma } from '../database/init';
 import { generateCSRFToken, storeCSRFToken } from '../middleware/csrf';
-import emailService from '../../src/lib/email/email';
+import emailService from '../services/email/emailService';
+import { loginLimiter } from '../middleware/security';
 
 const router = express.Router();
 
@@ -188,7 +189,15 @@ router.post('/register', async (req, res) => {
   const userId = generateUUIDv7();
 
   // Generate client ID
-  const clientId = generateUUIDv7();
+  const defaultClient = await prisma.clients.findFirst({
+    where: {
+      status_id: 0
+    },
+    orderBy: {
+      id: 'asc'
+    }
+  });
+  const clientId = defaultClient?.id;
 
   // Generate verification token
   const verificationToken = generateUUIDv7();
@@ -324,7 +333,7 @@ router.post('/register', async (req, res) => {
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter,  async (req, res) => {
   try {
     const { email, password, lat, lon } = req.body;
 
@@ -688,10 +697,10 @@ router.get('/verify-email', async (req, res) => {
     const { token } = req.query;
 
     // Validate input
-    if (!token || typeof token !== 'string') {
+    if (!token || typeof token !== 'string' || !isValidUUIDv7(token)) {
       return res.status(400).json({
         success: false,
-        message: 'Verification token is required'
+        message: 'Valid verification token is required'
       });
     }
 

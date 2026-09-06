@@ -49,6 +49,7 @@
     "submit": "Submit",
     "save": "Simpan",
     "fetchError": "Failed fetching data",
+    "close": "Tutup",
     "cancel": "Batal",
     "loading": "Loading...",
     "saveSuccess": "Penyimpanan Berhasil",

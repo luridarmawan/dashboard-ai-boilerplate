@@ -56,7 +56,7 @@ export const xfetch = async (
   // Dapatkan CSRF token dan session ID jika tidak di-skip
   if (!skipCSRF) {
     try {
-      const csrfData = await getCSRF();
+      const csrfData = await getCSRF(defaultHeaders);
       defaultHeaders['X-CSRF-Token'] = csrfData.csrfToken;
       defaultHeaders['X-Session-ID'] = csrfData.sessionId;
     } catch (error) {

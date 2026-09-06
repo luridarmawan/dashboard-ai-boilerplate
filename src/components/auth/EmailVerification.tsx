@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
 // import { useAuth } from "../../context/AuthContext";
 
@@ -8,17 +8,25 @@ export default function EmailVerification() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
+  const hasVerified = useRef(false);
   // const { login } = useAuth();
 
   useEffect(() => {
     const verifyEmail = async () => {
+      // Prevent multiple verification attempts
+      if (hasVerified.current) {
+        return;
+      }
+
+      hasVerified.current = true;
+
       try {
         const params = new URLSearchParams(location.search);
         const token = params.get("token");
-        
+
         if (!token) {
           setMessage("Invalid verification link");
           setIsSuccess(false);
@@ -29,7 +37,7 @@ export default function EmailVerification() {
         // Call the backend verification endpoint
         const response = await fetch(`${API_BASE_URL}/auth/verify-email?token=${token}`);
         const data = await response.json();
-        
+
         if (data.success) {
           setMessage(data.message);
           setIsSuccess(true);

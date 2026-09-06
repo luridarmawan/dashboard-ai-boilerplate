@@ -19,6 +19,8 @@ import aiRoutes from './routes/ai';
 import conversationsRoutes from './routes/conversations';
 import messagesRoutes from './routes/messages';
 import versionRoutes from './routes/version';
+import figlet from 'figlet';
+import chalk from 'chalk';
 import { initializeDatabase } from './database/init';
 import { csrfMiddleware, generateCSRFTokenMiddleware, mcpCSRFMiddleware } from './middleware/csrf';
 import { userActivityMiddleware } from './middleware/userActivity';
@@ -26,8 +28,11 @@ import { securityMiddlewares } from './middleware/security';
 import { getOpenAPISpec } from './utils/swagger';
 import { getBaseUrl } from './utils/string';
 import logs from './utils/logs';
+import packageData from '../package.json';
+import Step from './utils/step';
 
 dotenv.config();
+const spinner = new Step();
 
 const app = express();
 const PORT = process.env.VITE_API_PORT || 3001;
@@ -57,39 +62,41 @@ app.use(`${process.env.VITE_API_PREFIX}/menu`, menuRoutes);
 app.use(`${process.env.VITE_API_PREFIX}/version`, versionRoutes); // Public endpoint
 
 // Initializing module index
-console.log(``);
-console.log(`🗂  Initializing modules ...`);
-const indexFiles = glob.sync('**/api/index.ts', {
-  cwd: MODULES_DIR,
-  absolute: true
-});
-console.log(`   Modules directory: ${MODULES_DIR}`);
+const initializeModules = async () => {
+  console.log(``);
+  console.log(`🗂  Initializing modules ...`);
+  const indexFiles = glob.sync('**/api/index.ts', {
+    cwd: MODULES_DIR,
+    absolute: true
+  });
+  console.log(`   Modules directory: ${MODULES_DIR}`);
 
-if (indexFiles.length > 0) {
-  for (const indexFile of indexFiles) {
-    const moduleName = indexFile.split(path.sep).slice(-3)[0];
-    const indexPath = pathToFileURL(indexFile).href;
-    console.log(`🔧 Initializing module: ${moduleName}`);
+  if (indexFiles.length > 0) {
+    for (const indexFile of indexFiles) {
+      const moduleName = indexFile.split(path.sep).slice(-3)[0];
+      const indexPath = pathToFileURL(indexFile).href;
+      console.log(`🔧 Initializing module: ${moduleName}`);
 
-    try {
-      const moduleIndex = await import(indexPath);
-      // fleksibel: dukung export bernama `init` atau default function
-      const fn = typeof moduleIndex.init === 'function' ? moduleIndex.init
-        : typeof moduleIndex.default === 'function' ? moduleIndex.default
-          : null;
+      try {
+        const moduleIndex = await import(indexPath);
+        // fleksibel: dukung export bernama `init` atau default function
+        const fn = typeof moduleIndex.init === 'function' ? moduleIndex.init
+          : typeof moduleIndex.default === 'function' ? moduleIndex.default
+            : null;
 
-      if (!fn) {
-        console.log(`  ⚠️ Module "${moduleName}" does not export a init function`);
-        continue;
+        if (!fn) {
+          console.log(`  ⚠️ Module "${moduleName}" does not export a init function`);
+          continue;
+        }
+
+        const result = await fn(app);
+
+      } catch (error) {
+        console.error(`  ❌ Error initializing module ${moduleName}:`, error);
       }
 
-      const result = await fn(app);
-
-    } catch (error) {
-      console.error(`  ❌ Error initializing module ${moduleName}:`, error);
+      console.log(`   📗 Done: ${moduleName}`)
     }
-
-    console.log(`   📗 Done: ${moduleName}`)
   }
 }
 // /Initializing module index
@@ -210,9 +217,12 @@ const startServer = async () => {
   try {
     await initializeDatabase();
 
+    const textBanner = figlet.textSync((process.env.VITE_APP_NAME || "AI Carik Dashboard") + " API");
+    console.log(chalk.yellow(textBanner))
+
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-      console.log(`Health check: http://localhost:${PORT}${process.env.VITE_API_PREFIX}/health`);
+      console.log(chalk.greenBright(`🧠 ${process.env.VITE_APP_NAME} API v${packageData.version} is running on port ${PORT}`));
+      console.log(`Health check: ${process.env.VITE_API_URL}/health`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
@@ -220,4 +230,5 @@ const startServer = async () => {
   }
 };
 
+await initializeModules();
 startServer();
